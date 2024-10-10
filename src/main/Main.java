@@ -1,7 +1,6 @@
 package main;
 
 import user.UserRepository;
-import user.UserService;
 
 import ui.Ui;
 import javax.swing.JFrame;

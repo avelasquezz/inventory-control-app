@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;

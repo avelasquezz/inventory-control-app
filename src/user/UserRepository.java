@@ -1,6 +1,5 @@
 package user;
 
-import user.User;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -65,28 +64,6 @@ public class UserRepository {
 				default:
 					break;
 			}
-		}
-	}
-
-	public static void activateUser(String emailAddress) {
-		modifyUser(emailAddress, "state", "true");
-	}
-
-	public static void deactivateUser(String emailAddress) {
-		modifyUser(emailAddress, "state", "false");
-	}
-
-	public static void showUsers() {
-		for (User user : usersList) {
-			System.out.println("ID: " + user.getId());
-			System.out.println("Name: " + user.getName() + " " + user.getLastName());
-			System.out.println("Last Name: " + user.getLastName());
-			System.out.println("ID Type: " + user.getIdType());
-			System.out.println("ID Number: " + user.getIdNumber());
-			System.out.println("Email Address: " + user.getEmailAddress());
-			System.out.println("Phone Number: " + user.getPhoneNumber());
-			System.out.println("Active: " + (user.getState() ? "Yes" : "No"));
-			System.out.println("-------------------------");
 		}
 	}
 }

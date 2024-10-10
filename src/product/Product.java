@@ -15,6 +15,14 @@ public class Product {
         this.expirationDate = expirationDate;
     }
 
+    public Product() {
+        this.id = -1;
+    }
+
+    public boolean isNullProduct(Product product) {
+        return id == -1;
+    }
+
     // Getter methods
     public int getId() {
         return id;

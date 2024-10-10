@@ -30,11 +30,7 @@ public class User {
 	}
 
 	public boolean isNullUser() {
-		if (id == -1) {
-			return true;
-		} else {
-			return false;
-		}
+		return id == -1;
 	}
 
 	// Getter methods.

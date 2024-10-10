@@ -16,10 +16,10 @@ public class Main {
 	public static void main(String[] args) {
 		// User examples
 		UserRepository.createUser(1, "John", "Doe", "ID", "12345", "john@example.com", "555-1234", "password123", true);
-    UserRepository.createUser(2, "Jane", "Smith", "ID", "54321", "jane@example.com", "555-5678", "mypassword", true);
-    UserRepository.createUser(3, "Alice", "Johnson", "Passport", "98765", "alice@example.com", "555-8765", "securepass", true);
-    UserRepository.createUser(4, "Bob", "Brown", "ID", "67890", "bob@example.com", "555-4321", "letmein", true);
-    JFrame loginWindow = Ui.createWindow("Inventory Control App", 300, 400);
+    	UserRepository.createUser(2, "Jane", "Smith", "ID", "54321", "jane@example.com", "555-5678", "mypassword", true);
+    	UserRepository.createUser(3, "Alice", "Johnson", "Passport", "98765", "alice@example.com", "555-8765", "securepass", true);
+    	UserRepository.createUser(4, "Bob", "Brown", "ID", "67890", "bob@example.com", "555-4321", "letmein", true);
+    	JFrame loginWindow = Ui.createWindow("Inventory Control App", 300, 400);
 		JFrame mainWindow = Ui.createWindow("Inventory Control App", 600, 800);
 
 		JPanel welcomeMessagePanel = Ui.createPanel();

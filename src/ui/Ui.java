@@ -70,8 +70,8 @@ public class Ui {
 		JButton button = new JButton(text);
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		button.setContentAreaFilled(true); 
-    button.setBorderPainted(false); 
-    button.setFocusPainted(false); 
+    	button.setBorderPainted(false); 
+    	button.setFocusPainted(false); 
 		Color violet = new Color(175, 128, 232);
 		button.setBackground(violet); 
 		button.setForeground(Color.WHITE);
@@ -95,14 +95,14 @@ public class Ui {
 					String lastName = UserRepository.searchUserByEmail(emailAddress).getLastName();
 					welcomeMessageLabel.setText("¡Welcome, " + name + " " + lastName + "!");
 					emailTextField.setText("");
-          passwordTextField.setText("");
+          			passwordTextField.setText("");
 					errorMessageLabel.setText("");
 					mainWindow.setVisible(true);
 				} else {
 						errorMessageLabel.setText("Invalid email or password.");
 				}
 			}
-    });
+    	});
 	}
 
 	public static void addLogoutActionListener(JButton button, JFrame loginWindow, JFrame mainWindow) {
@@ -112,6 +112,6 @@ public class Ui {
 				mainWindow.dispose();
 				loginWindow.setVisible(true);
 			}
-    });
+    	});
 	}
 }

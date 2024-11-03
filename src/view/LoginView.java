@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,7 +9,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.User;
 import service.UserService;
+import repository.UserRepository;
 
 public class LoginView extends JFrame {
     private JLabel titleLabel;
@@ -21,13 +22,14 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
     private UserService userService;
+    private UserRepository userRepository;
 
-    public LoginView(UserService userService) {
+    public LoginView(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
 
         // Window config
         setTitle("Inventory Control App | Login");
-        setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -71,8 +73,9 @@ public class LoginView extends JFrame {
         this.loginButton.setForeground(Color.WHITE);
         this.loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        // Add component to panel
+        // Add components to panel
         loginPanel.add(Box.createVerticalGlue());
+
         loginPanel.add(this.titleLabel);
         loginPanel.add(Box.createRigidArea(new Dimension(0, 100)));
         loginPanel.add(this.emailAddressTextFieldLabel);
@@ -86,27 +89,37 @@ public class LoginView extends JFrame {
         loginPanel.add(this.errorMessageLabel);
         loginPanel.add(Box.createRigidArea(new Dimension(0, 40)));
         loginPanel.add(this.loginButton);
+
         loginPanel.add(Box.createVerticalGlue());
 
         add(loginPanel);
 
-        // Login button action
+        // Button actions
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String emailAddress = emailAddressTextField.getText();
-                String password = new String(passwordTextField.getPassword());
+                String emailAddress = LoginView.this.emailAddressTextField.getText();
+                String password = new String(LoginView.this.passwordTextField.getPassword());
 
                 if (LoginView.this.userService.validateUser(emailAddress, password)) {
-                    errorMessageLabel.setText("¡Succesfull login!");
+                    User validatedUser = LoginView.this.userRepository.searchUserByEmailAddress(emailAddress);
+                    String welcomeMessage = "¡Welcome, " + validatedUser.getName() + "!";
+
+                    LoginView.this.emailAddressTextField.setText("");
+                    LoginView.this.passwordTextField.setText("");
+                    LoginView.this.errorMessageLabel.setText("");
+                    
+                    dispose();
+                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.userRepository);
+                    dashboardView.showWindow();
                 } else {
-                    errorMessageLabel.setText("Incorrect password or email :(");
+                    LoginView.this.errorMessageLabel.setText("Incorrect password or email");
                 }
             }
         });
     }
 
-    public void showLoginWindow() {
+    public void showWindow() {
         setVisible(true);
     }
 }

@@ -124,7 +124,7 @@ public class LoginView extends JFrame {
                     DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userRepository, LoginView.this.userService, LoginView.this.productRepository, LoginView.this.productService, LoginView.this.supplierRepository, LoginView.this.supplierService);
                     dashboardView.showWindow();
                 } else {
-                    LoginView.this.errorMessageLabel.setText("Incorrect password or email");
+                    LoginView.this.errorMessageLabel.setText("Incorrect password or email.");
                 }
             }
         });

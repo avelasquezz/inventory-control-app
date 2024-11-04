@@ -4,6 +4,7 @@ import repository.*;
 import service.*;
 
 import model.Product;
+import view.manageProductsDialogs.*;
 
 import javax.swing.*;
 import javax.swing.table.JTableHeader;

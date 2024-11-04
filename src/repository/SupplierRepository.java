@@ -17,6 +17,15 @@ public class SupplierRepository {
         return null;
     }
 
+    public Supplier searchSupplierByName(String name) {
+        for (Supplier supplier : suppliersList) {
+            if (supplier.getName() == name) {
+                return supplier;
+            }
+        }
+        return null;
+    }
+
     public void addSupplier(Supplier supplierToAdd) {
         suppliersList.add(supplierToAdd);
     }

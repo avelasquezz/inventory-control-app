@@ -1,5 +1,8 @@
 package view;
 
+import repository.*;
+import service.*;
+
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.Color;
@@ -8,24 +11,31 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import repository.UserRepository;
-import service.UserService;
-
 public class DashboardView extends JFrame {
+    private UserRepository userRepository;
+    private UserService userService;
+    private ProductRepository productRepository;
+    private ProductService productService;
+    private SupplierRepository supplierRepository;
+    private SupplierService supplierService;
+    
     private JLabel welcomeMessageLabel;
     private JButton manageUsersButton;
     private JButton manageProductsButton;
     private JButton manageSuppliersButton;
     private JButton logOutButton;
-    private UserService userService;
-    private UserRepository userRepository;
 
-    public DashboardView(String welcomeMessage, UserService userService, UserRepository userRepository) {
+    public DashboardView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.productService = productService;
+        this.supplierRepository = supplierRepository;
+        this.supplierService = supplierService;
         
         // Window config
         setTitle("Inventory Control App | Home");
+        setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -95,7 +105,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                LoginView loginView = new LoginView(DashboardView.this.userService, DashboardView.this.userRepository);
+                LoginView loginView = new LoginView(DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService);
                 loginView.showWindow();
             }
         });
@@ -104,7 +114,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ManageProductsView manageProductsView = new ManageProductsView(DashboardView.this.userService, DashboardView.this.userRepository);
+                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService);
                 manageProductsView.showWindow();
             }
         });

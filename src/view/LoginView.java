@@ -1,5 +1,10 @@
 package view;
 
+import repository.*;
+import service.*;
+
+import model.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
@@ -9,11 +14,14 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.User;
-import service.UserService;
-import repository.UserRepository;
-
 public class LoginView extends JFrame {
+    private UserRepository userRepository;
+    private UserService userService;
+    private ProductRepository productRepository;
+    private ProductService productService;
+    private SupplierRepository supplierRepository;
+    private SupplierService supplierService;
+    
     private JLabel titleLabel;
     private JLabel emailAddressTextFieldLabel;
     private JTextField emailAddressTextField;
@@ -21,15 +29,18 @@ public class LoginView extends JFrame {
     private JPasswordField passwordTextField;
     private JButton loginButton;
     private JLabel errorMessageLabel;
-    private UserService userService;
-    private UserRepository userRepository;
 
-    public LoginView(UserService userService, UserRepository userRepository) {
+    public LoginView(UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.productService = productService;
+        this.supplierRepository = supplierRepository;
+        this.supplierService = supplierService;
 
         // Window config
         setTitle("Inventory Control App | Login");
+        setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -45,7 +56,7 @@ public class LoginView extends JFrame {
         this.emailAddressTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.emailAddressTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.emailAddressTextField = new JTextField(60);
+        this.emailAddressTextField = new JTextField();
         this.emailAddressTextField.setFont(new Font("Arial", Font.PLAIN, 18));
         this.emailAddressTextField.setMaximumSize(new Dimension(400, 40));
         this.emailAddressTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -54,7 +65,7 @@ public class LoginView extends JFrame {
         this.passwordTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.passwordTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.passwordTextField = new JPasswordField(60);
+        this.passwordTextField = new JPasswordField();
         this.passwordTextField.setFont(new Font("Arial", Font.PLAIN, 18));
         this.passwordTextField.setMaximumSize(new Dimension(400, 40));
         this.passwordTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -110,7 +121,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.userRepository);
+                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userRepository, LoginView.this.userService, LoginView.this.productRepository, LoginView.this.productService, LoginView.this.supplierRepository, LoginView.this.supplierService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Incorrect password or email");

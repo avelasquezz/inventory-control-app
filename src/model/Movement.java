@@ -8,15 +8,17 @@ public class Movement {
     private LocalDate date;
     private Product product;
     private String type;
-    private int quantity;
+    private int oldQuantity;
+    private int newQuantity;
 
-    public Movement(int id, String description, LocalDate date, Product product, String type, int quantity) { 
+    public Movement(int id, String description, LocalDate date, Product product, String type, int oldQuantity, int newQuantity) { 
         this.id = id;
         this.description = description;
         this.date = date;
         this.product = product;
         this.type = type;
-        this.quantity = quantity;
+        this.oldQuantity = oldQuantity;
+        this.newQuantity = newQuantity;
     }
 
     // Getter methods
@@ -40,8 +42,12 @@ public class Movement {
         return this.type;
     }
 
-    public int getQuantity() {
-        return this.quantity;
+    public int getOldQuantity() {
+        return this.oldQuantity;
+    }
+
+    public int getNewQuantity() {
+        return this.newQuantity;
     }
 
     // Setter methods
@@ -65,7 +71,11 @@ public class Movement {
         this.type = type;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setOldQuantity(int oldQuantity) {
+        this.oldQuantity = oldQuantity;
+    }
+
+    public void setNewQuantity(int newQuantity) {
+        this.newQuantity = newQuantity;
     }
 }

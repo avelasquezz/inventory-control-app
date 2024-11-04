@@ -26,14 +26,15 @@ public class ManageProductsView extends JFrame {
     private MovementRepository movementRepository;
     private MovementService movementService;
     
-    private JButton backButton;
     private JLabel productsTableTitle;
     private DefaultTableModel productsTableModel;
     private JTable productsTable;
+    private JButton backButton;
     private JButton addProductButton;
     private JButton modifyProductButton;
     private JButton removeProductButton;
     private JButton modifyStockButton;
+    private JButton viewMovementsButton;
 
     public ManageProductsView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
         this.userService = userService;
@@ -122,6 +123,15 @@ public class ManageProductsView extends JFrame {
         this.modifyStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.modifyStockButton.setForeground(Color.WHITE);
         this.modifyStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.viewMovementsButton = new JButton("View Movements");
+        this.viewMovementsButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.viewMovementsButton.setContentAreaFilled(true); 
+    	this.viewMovementsButton.setBorderPainted(false); 
+    	this.viewMovementsButton.setFocusPainted(false); 
+        this.viewMovementsButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.viewMovementsButton.setForeground(Color.WHITE);
+        this.viewMovementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
@@ -135,6 +145,8 @@ public class ManageProductsView extends JFrame {
         buttonsPanel.add(this.removeProductButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.modifyStockButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+        buttonsPanel.add(this.viewMovementsButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -194,6 +206,16 @@ public class ManageProductsView extends JFrame {
                     ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productRepository, ManageProductsView.this.productService, ManageProductsView.this.movementRepository, ManageProductsView.this.movementService);
                     modifyStockDialog.showDialog();
                 }
+            }
+        });
+
+        viewMovementsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                
+                MovementsView movementsView = new MovementsView(welcomeMessage, userRepository, userService, productRepository, productService, supplierRepository, supplierService, movementRepository, movementService);
+                movementsView.showWindow();
             }
         });
     }

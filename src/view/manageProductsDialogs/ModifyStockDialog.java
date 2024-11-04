@@ -162,18 +162,21 @@ public class ModifyStockDialog extends JDialog {
                     String newMovementDescription = ModifyStockDialog.this.descriptionTextArea.getText();
                     LocalDate newMovementDate = LocalDate.now();
                     Product newMovementProduct = ModifyStockDialog.this.productRepository.searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
-                    String newMovementType = ModifyStockDialog.this.addStockOption.isSelected() ? "add" : "reduce";
-                    int newMovementQuantity = Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText());
-
+                    String newMovementType = ModifyStockDialog.this.addStockOption.isSelected() ? "Add" : "Reduce";
+                    int oldMovementQuantity = newMovementProduct.getQuantity();
+                    int newMovementQuantity;
+                    
                     if (ModifyStockDialog.this.addStockOption.isSelected()) {
-                        newMovementProduct.setQuantity(newMovementProduct.getQuantity() + newMovementQuantity);
-                    } else if (ModifyStockDialog.this.reduceStockOption.isSelected() & !(newMovementProduct.getQuantity() - newMovementQuantity < 0) & !(newMovementDescription.equals(""))) {
-                        newMovementProduct.setQuantity(newMovementProduct.getQuantity() - newMovementQuantity);
+                        newMovementQuantity = newMovementProduct.getQuantity() + Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText());
+                        newMovementProduct.setQuantity(newMovementQuantity);
+                    } else if (ModifyStockDialog.this.reduceStockOption.isSelected() & !(newMovementProduct.getQuantity() - Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText()) < 0) & !(newMovementDescription.equals(""))) {
+                        newMovementQuantity = newMovementProduct.getQuantity() - Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText());
+                        newMovementProduct.setQuantity(newMovementQuantity);
                     } else {
                         throw new NumberFormatException();
                     }
     
-                    Movement newMovement = new Movement(newMovementId, newMovementDescription, newMovementDate, newMovementProduct, newMovementType, newMovementQuantity);
+                    Movement newMovement = new Movement(newMovementId, newMovementDescription, newMovementDate, newMovementProduct, newMovementType, oldMovementQuantity, newMovementQuantity);
                     ModifyStockDialog.this.productRepository.updateProduct(newMovementProduct);
 
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());

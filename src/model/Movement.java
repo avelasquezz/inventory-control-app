@@ -10,7 +10,7 @@ public class Movement {
     private String type;
     private int quantity;
 
-    public Movement(int id, String description, LocalDate date, Product product, String type, int quantity) {
+    public Movement(int id, String description, LocalDate date, Product product, String type, int quantity) { 
         this.id = id;
         this.description = description;
         this.date = date;

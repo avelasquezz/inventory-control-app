@@ -23,6 +23,8 @@ public class ManageProductsView extends JFrame {
     private ProductService productService;
     private SupplierRepository supplierRepository;
     private SupplierService supplierService;
+    private MovementRepository movementRepository;
+    private MovementService movementService;
     
     private JButton backButton;
     private JLabel productsTableTitle;
@@ -31,16 +33,17 @@ public class ManageProductsView extends JFrame {
     private JButton addProductButton;
     private JButton modifyProductButton;
     private JButton removeProductButton;
-    private JButton addStockButton;
-    private JButton reduceStockButton;
+    private JButton modifyStockButton;
 
-    public ManageProductsView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
+    public ManageProductsView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.productService = productService;
         this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
+        this.movementRepository = movementRepository;
+        this.movementService = movementService;
 
         // Window config
         setTitle("Inventory Control App | Manage Products");
@@ -111,23 +114,14 @@ public class ManageProductsView extends JFrame {
         this.removeProductButton.setForeground(Color.WHITE);
         this.removeProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.addStockButton = new JButton("Add Stock");
-        this.addStockButton.setFont(new Font("Arial", Font.BOLD, 24));
-        this.addStockButton.setContentAreaFilled(true); 
-    	this.addStockButton.setBorderPainted(false); 
-    	this.addStockButton.setFocusPainted(false); 
-        this.addStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
-        this.addStockButton.setForeground(Color.WHITE);
-        this.addStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.reduceStockButton = new JButton("Reduce Stock");
-        this.reduceStockButton.setFont(new Font("Arial", Font.BOLD, 24));
-        this.reduceStockButton.setContentAreaFilled(true); 
-    	this.reduceStockButton.setBorderPainted(false); 
-    	this.reduceStockButton.setFocusPainted(false); 
-        this.reduceStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
-        this.reduceStockButton.setForeground(Color.WHITE);
-        this.reduceStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.modifyStockButton = new JButton("Modify Stock");
+        this.modifyStockButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.modifyStockButton.setContentAreaFilled(true); 
+    	this.modifyStockButton.setBorderPainted(false); 
+    	this.modifyStockButton.setFocusPainted(false); 
+        this.modifyStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.modifyStockButton.setForeground(Color.WHITE);
+        this.modifyStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
@@ -140,9 +134,7 @@ public class ManageProductsView extends JFrame {
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.removeProductButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(this.addStockButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(this.reduceStockButton);
+        buttonsPanel.add(this.modifyStockButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -158,7 +150,7 @@ public class ManageProductsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, userRepository, userService, productRepository, productService, supplierRepository, supplierService);
+                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageProductsView.this.userRepository, ManageProductsView.this.userService, ManageProductsView.this.productRepository, ManageProductsView.this.productService, ManageProductsView.this.supplierRepository, ManageProductsView.this.supplierService, ManageProductsView.this.movementRepository, ManageProductsView.this.movementService);
                 dashboardView.showWindow();
             }
         });
@@ -190,6 +182,17 @@ public class ManageProductsView extends JFrame {
                     Product produtToRemove = ManageProductsView.this.productRepository.searchProductById(Integer.parseInt(productsTableModel.getValueAt(selectedRow, 0).toString()));
                     ManageProductsView.this.productRepository.removeProduct(produtToRemove);
                     ManageProductsView.this.productsTableModel.removeRow(selectedRow);
+                }
+            }
+        });
+
+        modifyStockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productRepository, ManageProductsView.this.productService, ManageProductsView.this.movementRepository, ManageProductsView.this.movementService);
+                    modifyStockDialog.showDialog();
                 }
             }
         });

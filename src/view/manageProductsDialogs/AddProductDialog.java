@@ -33,6 +33,7 @@ public class AddProductDialog extends JDialog {
     private JTextField unitPriceTextField;
     private JLabel supplierComboBoxLabel;
     private JComboBox<String> supplierComboBox;
+    
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 

@@ -21,6 +21,8 @@ public class LoginView extends JFrame {
     private ProductService productService;
     private SupplierRepository supplierRepository;
     private SupplierService supplierService;
+    private MovementRepository movementRepository;
+    private MovementService movementService;
     
     private JLabel titleLabel;
     private JLabel emailAddressTextFieldLabel;
@@ -30,13 +32,15 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
 
-    public LoginView(UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
+    public LoginView(UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.productService = productService;
         this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
+        this.movementRepository = movementRepository;
+        this.movementService = movementService;
 
         // Window config
         setTitle("Inventory Control App | Login");
@@ -121,7 +125,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userRepository, LoginView.this.userService, LoginView.this.productRepository, LoginView.this.productService, LoginView.this.supplierRepository, LoginView.this.supplierService);
+                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userRepository, LoginView.this.userService, LoginView.this.productRepository, LoginView.this.productService, LoginView.this.supplierRepository, LoginView.this.supplierService, LoginView.this.movementRepository, LoginView.this.movementService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Incorrect password or email.");

@@ -19,7 +19,7 @@ public class SupplierRepository {
 
     public Supplier searchSupplierByName(String name) {
         for (Supplier supplier : suppliersList) {
-            if (supplier.getName() == name) {
+            if (supplier.getName().equals(name)) {
                 return supplier;
             }
         }

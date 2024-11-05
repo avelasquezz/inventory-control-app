@@ -181,7 +181,6 @@ public class ModifyStockDialog extends JDialog {
 
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
                     ModifyStockDialog.this.movementRepository.addMovement(newMovement);
-                    System.out.println(ModifyStockDialog.this.movementRepository.getMovementsList());
 
                     dispose();
                 } catch (NumberFormatException ex) {

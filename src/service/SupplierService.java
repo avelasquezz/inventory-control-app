@@ -4,6 +4,10 @@ import model.Supplier;
 import repository.SupplierRepository;
 
 import java.util.List;
+import java.util.Random;
+
+import javax.swing.table.DefaultTableModel;
+
 import java.util.ArrayList;
 
 public class SupplierService {
@@ -11,6 +15,22 @@ public class SupplierService {
 
     public SupplierService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
+    }
+
+    public int generateId() {
+        Random random = new Random();
+        boolean findingNewId = true;
+        int newId = 0;
+
+        while(findingNewId) {
+            findingNewId = false;
+            newId = 1000 + random.nextInt(9000);
+            for (Supplier supplier : this.supplierRepository.getSuppliersList()) {
+                findingNewId = findingNewId || supplier.getId() == newId;
+            }
+        }
+
+        return newId;
     }
 
     public List<String> getSupplierNamesList() {
@@ -21,5 +41,21 @@ public class SupplierService {
         }
 
         return supplierNamesList;
+    }
+
+    public void updateTable(DefaultTableModel suppliersTableModel) {
+        suppliersTableModel.setRowCount(0);
+        
+        for (Supplier supplier : supplierRepository.getSuppliersList()) {
+            String[] tableRow = {
+                String.valueOf(supplier.getId()), 
+                supplier.getName(), 
+                supplier.getAddress(), 
+                supplier.getPhoneNumber(), 
+            };
+            suppliersTableModel.addRow(tableRow);
+        }
+
+        suppliersTableModel.fireTableDataChanged();
     }
 }

@@ -122,6 +122,15 @@ public class DashboardView extends JFrame {
                 manageProductsView.showWindow();
             }
         });
+
+        manageSuppliersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                ManageSuppliersView manageSuppliersView = new ManageSuppliersView(welcomeMessage, DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService, DashboardView.this.movementRepository, DashboardView.this.movementService);
+                manageSuppliersView.showWindow();
+            }
+        });
     }
 
     public void showWindow() {

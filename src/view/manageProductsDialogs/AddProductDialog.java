@@ -33,7 +33,6 @@ public class AddProductDialog extends JDialog {
     private JTextField unitPriceTextField;
     private JLabel supplierComboBoxLabel;
     private JComboBox<String> supplierComboBox;
-    
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
@@ -163,8 +162,10 @@ public class AddProductDialog extends JDialog {
                     String newProductCategory = AddProductDialog.this.categoryTextField.getText();
                     int newProductQuantity = Integer.parseInt(AddProductDialog.this.quantityTextField.getText());
                     double newProductUnitPrice = Double.parseDouble(AddProductDialog.this.unitPriceTextField.getText());
-                    Supplier newProductSupplier = AddProductDialog.this.supplierRepository.searchSupplierByName((String) AddProductDialog.this.supplierComboBox.getSelectedItem());
-                    
+
+                    String supplierName = (String) AddProductDialog.this.supplierComboBox.getSelectedItem();
+                    Supplier newProductSupplier = AddProductDialog.this.supplierRepository.searchSupplierByName(supplierName);
+
                     Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
 
                     AddProductDialog.this.productRepository.addProduct(newProduct);

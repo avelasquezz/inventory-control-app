@@ -7,6 +7,7 @@ import model.Product;
 import view.manageProductsDialogs.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
@@ -15,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ManageProductsView extends JFrame {
     private UserRepository userRepository;
@@ -27,6 +29,9 @@ public class ManageProductsView extends JFrame {
     private MovementService movementService;
     
     private JLabel productsTableTitle;
+    private JButton searchButton;
+    private JTextField searchTextField;
+    private JLabel searchErrorMessageLabel;
     private DefaultTableModel productsTableModel;
     private JTable productsTable;
     private JButton backButton;
@@ -71,7 +76,41 @@ public class ManageProductsView extends JFrame {
         tablePanel.add(Box.createVerticalGlue());
         
         tablePanel.add(this.productsTableTitle);
-        tablePanel.add(Box.createRigidArea(new Dimension(0, 40)));
+        tablePanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // Create subpanel to organize search field
+        JPanel searchFieldPanel = new JPanel();
+        searchFieldPanel.setLayout(new BoxLayout(searchFieldPanel, BoxLayout.X_AXIS));
+
+        this.searchButton = new JButton("🔍");
+        this.searchButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.searchButton.setContentAreaFilled(true); 
+    	this.searchButton.setBorderPainted(false); 
+    	this.searchButton.setFocusPainted(false); 
+        this.searchButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.searchButton.setForeground(Color.WHITE);
+        this.searchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.searchTextField = new JTextField();
+        this.searchTextField.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.searchTextField.setMaximumSize(new Dimension(300, 40));
+        this.searchTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        // Add components to search panel
+        searchFieldPanel.add(this.searchButton);
+        searchFieldPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        searchFieldPanel.add(this.searchTextField);
+
+        tablePanel.add(searchFieldPanel);
+        tablePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        
+        this.searchErrorMessageLabel = new JLabel("");
+        this.searchErrorMessageLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        this.searchErrorMessageLabel.setForeground(new Color(235, 87, 87)); // Set red color
+        this.searchErrorMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        tablePanel.add(searchErrorMessageLabel);
+        tablePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         tablePanel.add(new JScrollPane(this.productsTable));
         tablePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         
@@ -158,6 +197,29 @@ public class ManageProductsView extends JFrame {
         ManageProductsView.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
         // Button actions
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchedName = ManageProductsView.this.searchTextField.getText();
+
+                if (searchedName.equals("")) {
+                    ManageProductsView.this.searchErrorMessageLabel.setText("");
+                    ManageProductsView.this.productService.updateTable(productsTableModel);
+                    return;
+                }
+                
+                List<Product> foundProducts = ManageProductsView.this.productRepository.searchProductsByName(searchedName);
+                
+                if (foundProducts.size() == 0) {
+                    ManageProductsView.this.searchErrorMessageLabel.setText("Product does not exists.");
+                    ManageProductsView.this.productService.updateTable(productsTableModel);
+                } else {
+                    ManageProductsView.this.searchErrorMessageLabel.setText("");
+                    ManageProductsView.this.productService.updateTable(productsTableModel, foundProducts);
+                }
+            }
+        });
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,7 +232,7 @@ public class ManageProductsView extends JFrame {
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddProductDialog addProductDialog = new AddProductDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productRepository, ManageProductsView.this.productService, ManageProductsView.this.supplierRepository, ManageProductsView.this.supplierService);
+                AddProductDialog addProductDialog = new AddProductDialog(productsTable, ManageProductsView.this.productRepository, ManageProductsView.this.productService, ManageProductsView.this.supplierRepository, ManageProductsView.this.supplierService);
                 addProductDialog.showDialog();
             }
         });

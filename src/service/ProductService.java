@@ -5,6 +5,7 @@ import model.Product;
 
 import java.util.Random;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 public class ProductService {
     private ProductRepository productRepository;
@@ -33,6 +34,23 @@ public class ProductService {
         productsTableModel.setRowCount(0);
         
         for (Product product : productRepository.getProductsList()) {
+            String[] tableRow = {
+                String.valueOf(product.getId()), 
+                product.getName(), product.getCategory(), 
+                String.valueOf(product.getQuantity()), 
+                String.valueOf(product.getUnitPrice()), 
+                product.getSupplier().getName()
+            };
+            productsTableModel.addRow(tableRow);
+        }
+
+        productsTableModel.fireTableDataChanged();
+    }
+
+    public void updateTable(DefaultTableModel productsTableModel, List<Product> productsList) {
+        productsTableModel.setRowCount(0);
+        
+        for (Product product : productsList) {
             String[] tableRow = {
                 String.valueOf(product.getId()), 
                 product.getName(), product.getCategory(), 

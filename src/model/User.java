@@ -2,7 +2,7 @@ package model;
 
 public class User {
 	private String idType;
-	private String idNumber;
+	private int idNumber;
 	private String name;
 	private String lastName;
 	private String phoneNumber;
@@ -10,7 +10,7 @@ public class User {
 	private String password;
 	private boolean isActive;
 
-	public User(String idType, String idNumber, String name, String lastName, String phoneNumber, String
+	public User(String idType, int idNumber, String name, String lastName, String phoneNumber, String
     emailAddress, String password, boolean isActive) {
 		this.idType = idType;
 		this.idNumber = idNumber;
@@ -27,7 +27,7 @@ public class User {
         return this.idType;
     }
 
-    public String getIdNumber() {
+    public int getIdNumber() {
         return this.idNumber;
     }
 
@@ -60,7 +60,7 @@ public class User {
         this.idType = idType;
     }
 
-    public void setIdNumber(String idNumber) {
+    public void setIdNumber(int idNumber) {
         this.idNumber = idNumber;
     }
 

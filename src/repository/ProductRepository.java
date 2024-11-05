@@ -17,6 +17,16 @@ public class ProductRepository {
         return null;
     }
 
+    public List<Product> searchProductsByName(String name) {
+        List<Product> foundProducts = new ArrayList<>();
+        for (Product product : productsList) {
+            if (product.getName().toLowerCase().contains(name)) {
+                foundProducts.add(product);
+            }
+        }
+        return foundProducts;
+    }
+
     public void addProduct(Product productToAdd) {
         productsList.add(productToAdd);
     }

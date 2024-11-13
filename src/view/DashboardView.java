@@ -1,6 +1,5 @@
 package view;
 
-import repository.*;
 import service.*;
 
 import javax.swing.*;
@@ -12,13 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DashboardView extends JFrame {
-    private UserRepository userRepository;
     private UserService userService;
-    private ProductRepository productRepository;
     private ProductService productService;
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
-    private MovementRepository movementRepository;
     private MovementService movementService;
     
     private JLabel welcomeMessageLabel;
@@ -27,14 +22,10 @@ public class DashboardView extends JFrame {
     private JButton manageSuppliersButton;
     private JButton logOutButton;
 
-    public DashboardView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
+    public DashboardView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
         this.productService = productService;
-        this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
-        this.movementRepository = movementRepository;
         this.movementService = movementService;
         
         // Window config
@@ -109,7 +100,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                LoginView loginView = new LoginView(DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService, DashboardView.this.movementRepository, DashboardView.this.movementService);
+                LoginView loginView = new LoginView(DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
                 loginView.showWindow();
             }
         });
@@ -118,7 +109,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService, DashboardView.this.movementRepository, DashboardView.this.movementService);
+                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
                 manageProductsView.showWindow();
             }
         });
@@ -127,7 +118,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ManageSuppliersView manageSuppliersView = new ManageSuppliersView(welcomeMessage, DashboardView.this.userRepository, DashboardView.this.userService, DashboardView.this.productRepository, DashboardView.this.productService, DashboardView.this.supplierRepository, DashboardView.this.supplierService, DashboardView.this.movementRepository, DashboardView.this.movementService);
+                ManageSuppliersView manageSuppliersView = new ManageSuppliersView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
                 manageSuppliersView.showWindow();
             }
         });

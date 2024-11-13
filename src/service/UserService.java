@@ -9,7 +9,11 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
+
+    public UserRepository getUserRepository() {
+        return this.userRepository;
+    }
+
     public boolean validateUser(String emailAddress, String password) {
         User userToValidate = this.userRepository.searchUserByEmailAddress(emailAddress);
         if (userToValidate == null) {

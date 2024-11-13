@@ -1,6 +1,5 @@
 package view;
 
-import repository.*;
 import service.*;
 
 import model.Supplier;
@@ -17,13 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ManageSuppliersView extends JFrame {
-    private UserRepository userRepository;
     private UserService userService;
-    private ProductRepository productRepository;
     private ProductService productService;
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
-    private MovementRepository movementRepository;
     private MovementService movementService;
     
     private JLabel suppliersTableTitle;
@@ -34,14 +29,10 @@ public class ManageSuppliersView extends JFrame {
     private JButton modifySupplierButton;
     private JButton removeSupplierButton;
 
-    public ManageSuppliersView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
+    public ManageSuppliersView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
         this.productService = productService;
-        this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
-        this.movementRepository = movementRepository;
         this.movementService = movementService;
 
         // Window config
@@ -139,7 +130,7 @@ public class ManageSuppliersView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageSuppliersView.this.userRepository, ManageSuppliersView.this.userService, ManageSuppliersView.this.productRepository, ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierRepository, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementRepository, ManageSuppliersView.this.movementService);
+                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService);
                 dashboardView.showWindow();
             }
         });
@@ -147,7 +138,7 @@ public class ManageSuppliersView extends JFrame {
         addSupplierButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddSupplierDialog addSupplierDialog = new AddSupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierRepository, ManageSuppliersView.this.supplierService);
+                AddSupplierDialog addSupplierDialog = new AddSupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierService);
                 addSupplierDialog.showDialog();
             }
         });
@@ -157,7 +148,7 @@ public class ManageSuppliersView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageSuppliersView.this.suppliersTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifySupplierDialog modifySupplierDialog = new ModifySupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierRepository, ManageSuppliersView.this.supplierService);
+                    ModifySupplierDialog modifySupplierDialog = new ModifySupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierService);
                     modifySupplierDialog.showDialog();
                 }
             }
@@ -168,8 +159,8 @@ public class ManageSuppliersView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageSuppliersView.this.suppliersTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    Supplier produtToRemove = ManageSuppliersView.this.supplierRepository.searchSupplierById(Integer.parseInt(suppliersTableModel.getValueAt(selectedRow, 0).toString()));
-                    ManageSuppliersView.this.supplierRepository.removeSupplier(produtToRemove);
+                    Supplier produtToRemove = ManageSuppliersView.this.supplierService.getSupplierRepository().searchSupplierById(Integer.parseInt(suppliersTableModel.getValueAt(selectedRow, 0).toString()));
+                    ManageSuppliersView.this.supplierService.getSupplierRepository().removeSupplier(produtToRemove);
                     ManageSuppliersView.this.suppliersTableModel.removeRow(selectedRow);
                 }
             }

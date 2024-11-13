@@ -1,6 +1,5 @@
 package view.manageProductsDialogs;
 
-import repository.*;
 import service.*;
 import model.Product;
 import model.Supplier;
@@ -16,9 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddProductDialog extends JDialog {
-    private ProductRepository productRepository;
     private ProductService productService;
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
     
     private JLabel idLabel;
@@ -36,10 +33,8 @@ public class AddProductDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public AddProductDialog(JTable productsTable, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
-        this.productRepository = productRepository;
+    public AddProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService) {
         this.productService = productService;
-        this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
         
         // Dialog config
@@ -164,11 +159,11 @@ public class AddProductDialog extends JDialog {
                     double newProductUnitPrice = Double.parseDouble(AddProductDialog.this.unitPriceTextField.getText());
 
                     String supplierName = (String) AddProductDialog.this.supplierComboBox.getSelectedItem();
-                    Supplier newProductSupplier = AddProductDialog.this.supplierRepository.searchSupplierByName(supplierName);
+                    Supplier newProductSupplier = AddProductDialog.this.supplierService.getSupplierRepository().searchSupplierByName(supplierName);
 
                     Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
 
-                    AddProductDialog.this.productRepository.addProduct(newProduct);
+                    AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
                     AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
                     dispose();

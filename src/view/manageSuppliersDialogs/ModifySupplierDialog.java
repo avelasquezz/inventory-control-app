@@ -1,6 +1,5 @@
 package view.manageSuppliersDialogs;
 
-import repository.SupplierRepository;
 import service.SupplierService;
 import model.Supplier;
 
@@ -15,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ModifySupplierDialog extends JDialog {
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
 
     private JLabel idLabel;
@@ -29,8 +27,7 @@ public class ModifySupplierDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifySupplierDialog(JTable suppliersTable, SupplierRepository supplierRepository, SupplierService supplierService) {
-        this.supplierRepository = supplierRepository;
+    public ModifySupplierDialog(JTable suppliersTable, SupplierService supplierService) {
         this.supplierService = supplierService;
         
         // Dialog config
@@ -131,7 +128,7 @@ public class ModifySupplierDialog extends JDialog {
             
                     Supplier modifiedSupplier = new Supplier(newSupplierId, newSupplierName, newSupplierAddress, newSupplierPhoneNumber);
                     
-                    ModifySupplierDialog.this.supplierRepository.updateSupplier(modifiedSupplier);
+                    ModifySupplierDialog.this.supplierService.getSupplierRepository().updateSupplier(modifiedSupplier);
                     ModifySupplierDialog.this.supplierService.updateTable((DefaultTableModel) suppliersTable.getModel());
 
                     dispose();

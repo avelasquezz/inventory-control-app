@@ -13,6 +13,10 @@ public class MovementService {
         this.movementRepository = movementRepository;
     }
 
+    public MovementRepository getMovementRepository() {
+        return this.movementRepository;
+    }
+
     public int generateId() {
         Random random = new Random();
         boolean findingNewId = true;

@@ -14,6 +14,10 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public ProductRepository getProductRepository() {
+        return this.productRepository;
+    }
+
     public int generateId() {
         Random random = new Random();
         boolean findingNewId = true;

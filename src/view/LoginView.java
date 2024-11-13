@@ -1,6 +1,5 @@
 package view;
 
-import repository.*;
 import service.*;
 
 import model.User;
@@ -15,13 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginView extends JFrame {
-    private UserRepository userRepository;
     private UserService userService;
-    private ProductRepository productRepository;
     private ProductService productService;
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
-    private MovementRepository movementRepository;
     private MovementService movementService;
     
     private JLabel titleLabel;
@@ -32,14 +27,10 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
 
-    public LoginView(UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
+    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
         this.productService = productService;
-        this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
-        this.movementRepository = movementRepository;
         this.movementService = movementService;
 
         // Window config
@@ -117,7 +108,7 @@ public class LoginView extends JFrame {
                 String password = new String(LoginView.this.passwordTextField.getPassword());
 
                 if (LoginView.this.userService.validateUser(emailAddress, password)) {
-                    User validatedUser = LoginView.this.userRepository.searchUserByEmailAddress(emailAddress);
+                    User validatedUser = LoginView.this.userService.getUserRepository().searchUserByEmailAddress(emailAddress);
                     String welcomeMessage = "¡Welcome, " + validatedUser.getName() + "!";
 
                     LoginView.this.emailAddressTextField.setText("");
@@ -125,7 +116,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userRepository, LoginView.this.userService, LoginView.this.productRepository, LoginView.this.productService, LoginView.this.supplierRepository, LoginView.this.supplierService, LoginView.this.movementRepository, LoginView.this.movementService);
+                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Incorrect password or email.");

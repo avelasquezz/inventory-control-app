@@ -1,7 +1,5 @@
 package view.manageProductsDialogs;
 
-import repository.ProductRepository;
-import repository.MovementRepository;
 import service.ProductService;
 import service.MovementService;
 
@@ -21,9 +19,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 public class ModifyStockDialog extends JDialog {
-    private ProductRepository productRepository;
     private ProductService productService;
-    private MovementRepository movementRepository;
     private MovementService movementService;
 
     private JLabel currentQuantityLabel;
@@ -39,10 +35,8 @@ public class ModifyStockDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyStockDialog(JTable productsTable, ProductRepository productRepository, ProductService productService, MovementRepository movementRepository, MovementService movementService) {
-        this.productRepository = productRepository;
+    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService) {
         this.productService = productService;
-        this.movementRepository = movementRepository;
         this.movementService = movementService;
 
         // Dialog config
@@ -161,7 +155,7 @@ public class ModifyStockDialog extends JDialog {
                     int newMovementId = ModifyStockDialog.this.movementService.generateId();
                     String newMovementDescription = ModifyStockDialog.this.descriptionTextArea.getText();
                     LocalDate newMovementDate = LocalDate.now();
-                    Product newMovementProduct = ModifyStockDialog.this.productRepository.searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
+                    Product newMovementProduct = ModifyStockDialog.this.productService.getProductRepository().searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
                     String newMovementType = ModifyStockDialog.this.addStockOption.isSelected() ? "Add" : "Reduce";
                     int oldMovementQuantity = newMovementProduct.getQuantity();
                     int newMovementQuantity;
@@ -177,10 +171,10 @@ public class ModifyStockDialog extends JDialog {
                     }
     
                     Movement newMovement = new Movement(newMovementId, newMovementDescription, newMovementDate, newMovementProduct, newMovementType, oldMovementQuantity, newMovementQuantity);
-                    ModifyStockDialog.this.productRepository.updateProduct(newMovementProduct);
+                    ModifyStockDialog.this.productService.getProductRepository().updateProduct(newMovementProduct);
 
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
-                    ModifyStockDialog.this.movementRepository.addMovement(newMovement);
+                    ModifyStockDialog.this.movementService.getMovementRepository().addMovement(newMovement);
 
                     dispose();
                 } catch (NumberFormatException ex) {

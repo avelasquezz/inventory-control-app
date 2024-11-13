@@ -17,6 +17,10 @@ public class SupplierService {
         this.supplierRepository = supplierRepository;
     }
 
+    public SupplierRepository getSupplierRepository() {
+        return this.supplierRepository;
+    }
+
     public int generateId() {
         Random random = new Random();
         boolean findingNewId = true;

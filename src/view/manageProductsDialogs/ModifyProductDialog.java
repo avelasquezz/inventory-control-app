@@ -1,7 +1,5 @@
 package view.manageProductsDialogs;
 
-import repository.ProductRepository;
-import repository.SupplierRepository;
 import service.ProductService;
 import service.SupplierService;
 import model.Product;
@@ -18,9 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ModifyProductDialog extends JDialog {
-    private ProductRepository productRepository;
     private ProductService productService;
-    private SupplierRepository supplierRepository;
     private SupplierService supplierService;
 
     private JLabel idLabel;
@@ -38,10 +34,8 @@ public class ModifyProductDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyProductDialog(JTable productsTable, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService) {
-        this.productRepository = productRepository;
+    public ModifyProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService) {
         this.productService = productService;
-        this.supplierRepository = supplierRepository;
         this.supplierService = supplierService;
         
         // Dialog config
@@ -166,11 +160,11 @@ public class ModifyProductDialog extends JDialog {
                     String newProductCategory = ModifyProductDialog.this.categoryTextField.getText();
                     int newProductQuantity = Integer.parseInt(ModifyProductDialog.this.quantityValueLabel.getText());
                     double newProductUnitPrice = Double.parseDouble(ModifyProductDialog.this.unitPriceTextField.getText());
-                    Supplier newProductSupplier = ModifyProductDialog.this.supplierRepository.searchSupplierByName((String) ModifyProductDialog.this.supplierComboBox.getSelectedItem());
+                    Supplier newProductSupplier = ModifyProductDialog.this.supplierService.getSupplierRepository().searchSupplierByName((String) ModifyProductDialog.this.supplierComboBox.getSelectedItem());
                     
                     Product modifiedProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
             
-                    ModifyProductDialog.this.productRepository.updateProduct(modifiedProduct);
+                    ModifyProductDialog.this.productService.getProductRepository().updateProduct(modifiedProduct);
                     ModifyProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
                     dispose();

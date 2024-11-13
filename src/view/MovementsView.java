@@ -1,6 +1,5 @@
 package view;
 
-import repository.*;
 import service.*;
 
 import javax.swing.*;
@@ -14,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MovementsView extends JFrame {
+    private UserService userService;
+    private ProductService productService;
+    private SupplierService supplierService;
     private MovementService movementService;
     
     private JLabel movementsTableTitle;
@@ -21,7 +23,10 @@ public class MovementsView extends JFrame {
     private JTable movementsTable;
     private JButton backButton;
 
-    public MovementsView(String welcomeMessage, UserRepository userRepository, UserService userService, ProductRepository productRepository, ProductService productService, SupplierRepository supplierRepository, SupplierService supplierService, MovementRepository movementRepository, MovementService movementService) {
+    public MovementsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+        this.userService = userService;
+        this.productService = productService;
+        this.supplierService = supplierService;
         this.movementService = movementService;
 
         // Window config
@@ -75,7 +80,7 @@ public class MovementsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
 
-                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, userRepository, userService, productRepository, productService, supplierRepository, supplierService, movementRepository, movementService);
+                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService);
                 manageProductsView.showWindow();
             }
         });

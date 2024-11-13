@@ -19,7 +19,7 @@ public class Main {
         MovementRepository movementRepository = new MovementRepository();
         MovementService movementService = new MovementService(movementRepository);
               
-        LoginView loginView = new LoginView(userRepository, userService, productRepository, productService, supplierRepository, supplierService, movementRepository, movementService);
+        LoginView loginView = new LoginView(userService, productService, supplierService, movementService);
 
         User exampleUser1 = new User("ID", 1111, "John", "Doe", "12345", "john@example.com", "password123", true);
     	User exampleUser2 = new User("ID", 2222, "Jane", "Smith", "54321", "jane@example.com", "mypassword", true);

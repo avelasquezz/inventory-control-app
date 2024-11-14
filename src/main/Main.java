@@ -5,18 +5,18 @@ import service.*;
 
 import view.LoginView;
 
-import model.Supplier;
 import model.User;
 
 public class Main {
     public static void main(String[] args) {
         UserRepository userRepository = new UserRepository();
-        UserService userService = new UserService(userRepository);
         ProductRepository productRepository = new ProductRepository();
-        ProductService productService = new ProductService(productRepository);
         SupplierRepository supplierRepository = new SupplierRepository();
-        SupplierService supplierService = new SupplierService(supplierRepository);
         MovementRepository movementRepository = new MovementRepository();
+        
+        UserService userService = new UserService(userRepository);
+        ProductService productService = new ProductService(productRepository);
+        SupplierService supplierService = new SupplierService(supplierRepository);
         MovementService movementService = new MovementService(movementRepository);
               
         LoginView loginView = new LoginView(userService, productService, supplierService, movementService);
@@ -31,9 +31,6 @@ public class Main {
         userRepository.addUser(exampleUser3);
         userRepository.addUser(exampleUser4);
 
-        Supplier undefinedSupplier = new Supplier(1111, "Undefined", "Undefined", "Undefined");
-        supplierRepository.addSupplier(undefinedSupplier);
-            
         loginView.showWindow();
     }
 }

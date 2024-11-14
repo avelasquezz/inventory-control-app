@@ -152,21 +152,26 @@ public class AddProductDialog extends JDialog {
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int newProductId = Integer.parseInt(AddProductDialog.this.idValueLabel.getText());
-                    String newProductName = AddProductDialog.this.nameTextField.getText();
-                    String newProductCategory = AddProductDialog.this.categoryTextField.getText();
-                    int newProductQuantity = Integer.parseInt(AddProductDialog.this.quantityTextField.getText());
-                    double newProductUnitPrice = Double.parseDouble(AddProductDialog.this.unitPriceTextField.getText());
+                    if (AddProductDialog.this.supplierService.getSupplierRepository().getSuppliersList().size() == 0) {
+                        AddProductDialog.this.errorMessageLabel.setText("No hay proveedores registrados.");
+                        return;
+                    } else {
+                        int newProductId = Integer.parseInt(AddProductDialog.this.idValueLabel.getText());
+                        String newProductName = AddProductDialog.this.nameTextField.getText();
+                        String newProductCategory = AddProductDialog.this.categoryTextField.getText();
+                        int newProductQuantity = Integer.parseInt(AddProductDialog.this.quantityTextField.getText());
+                        double newProductUnitPrice = Double.parseDouble(AddProductDialog.this.unitPriceTextField.getText());
 
-                    String supplierName = (String) AddProductDialog.this.supplierComboBox.getSelectedItem();
-                    Supplier newProductSupplier = AddProductDialog.this.supplierService.getSupplierRepository().searchSupplierByName(supplierName);
+                        String supplierName = (String) AddProductDialog.this.supplierComboBox.getSelectedItem();
+                        Supplier newProductSupplier = AddProductDialog.this.supplierService.getSupplierRepository().searchSupplierByName(supplierName);
 
-                    Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
+                        Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
 
-                    AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
-                    AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
+                        AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
+                        AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
-                    dispose();
+                        dispose();
+                    }
                 } catch (NumberFormatException ex) {
 					AddProductDialog.this.errorMessageLabel.setText("Invalid data detected.");
 				}

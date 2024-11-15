@@ -41,8 +41,6 @@ public class ProductService {
             String[] tableRow = {
                 String.valueOf(product.getId()), 
                 product.getName(), product.getCategory(), 
-                String.valueOf(product.getQuantity()), 
-                String.valueOf(product.getUnitPrice()), 
                 product.getSupplier().getName()
             };
             productsTableModel.addRow(tableRow);
@@ -58,8 +56,6 @@ public class ProductService {
             String[] tableRow = {
                 String.valueOf(product.getId()), 
                 product.getName(), product.getCategory(), 
-                String.valueOf(product.getQuantity()), 
-                String.valueOf(product.getUnitPrice()), 
                 product.getSupplier().getName()
             };
             productsTableModel.addRow(tableRow);

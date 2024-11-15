@@ -4,16 +4,12 @@ public class Product {
     private int id;
     private String name;
     private String category;
-    private int quantity;
-    private double unitPrice;
     private Supplier supplier;
 
-    public Product(int id, String name, String category, int quantity, double unitPrice, Supplier supplier) {
+    public Product(int id, String name, String category, Supplier supplier) {
         this.id = id;
         this.name = name;
         this.category = category;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
         this.supplier = supplier;
     }
 
@@ -28,14 +24,6 @@ public class Product {
 
     public String getCategory() {
         return this.category;
-    }
-
-    public int getQuantity() {
-        return this.quantity;
-    }
-
-    public double getUnitPrice() {
-        return this.unitPrice;
     }
 
     public Supplier getSupplier() {
@@ -53,14 +41,6 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
     }
 
     public void setSupplier(Supplier supplier) {

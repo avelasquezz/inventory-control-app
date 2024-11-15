@@ -24,10 +24,6 @@ public class AddProductDialog extends JDialog {
     private JTextField nameTextField;
     private JLabel categoryTextFieldLabel;
     private JTextField categoryTextField;
-    private JLabel quantityTextFieldLabel;
-    private JTextField quantityTextField;
-    private JLabel unitPriceTextFieldLabel;
-    private JTextField unitPriceTextField;
     private JLabel supplierComboBoxLabel;
     private JComboBox<String> supplierComboBox;
     private JButton acceptButton;
@@ -39,7 +35,7 @@ public class AddProductDialog extends JDialog {
         
         // Dialog config
         setTitle("Add Product");
-        setSize(300, 700);
+        setSize(300, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // UI components
@@ -73,24 +69,6 @@ public class AddProductDialog extends JDialog {
         this.categoryTextField.setFont(new Font("Arial", Font.PLAIN, 16));
         this.categoryTextField.setMaximumSize(new Dimension(200, 40));
         this.categoryTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
-        this.quantityTextFieldLabel = new JLabel("Quantity");
-        this.quantityTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.quantityTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.quantityTextField = new JTextField();
-        this.quantityTextField.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.quantityTextField.setMaximumSize(new Dimension(200, 40));
-        this.quantityTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
-        this.unitPriceTextFieldLabel = new JLabel("Unit Price");
-        this.unitPriceTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.unitPriceTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.unitPriceTextField = new JTextField();
-        this.unitPriceTextField.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.unitPriceTextField.setMaximumSize(new Dimension(200, 40));
-        this.unitPriceTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         this.supplierComboBoxLabel = new JLabel("Supplier");
         this.supplierComboBoxLabel.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -129,14 +107,6 @@ public class AddProductDialog extends JDialog {
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         dialogPanel.add(this.categoryTextField);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(this.quantityTextFieldLabel);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.quantityTextField);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(this.unitPriceTextFieldLabel);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.unitPriceTextField);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         dialogPanel.add (this.supplierComboBoxLabel);
         dialogPanel.add (this.supplierComboBox);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -159,13 +129,11 @@ public class AddProductDialog extends JDialog {
                         int newProductId = Integer.parseInt(AddProductDialog.this.idValueLabel.getText());
                         String newProductName = AddProductDialog.this.nameTextField.getText();
                         String newProductCategory = AddProductDialog.this.categoryTextField.getText();
-                        int newProductQuantity = Integer.parseInt(AddProductDialog.this.quantityTextField.getText());
-                        double newProductUnitPrice = Double.parseDouble(AddProductDialog.this.unitPriceTextField.getText());
 
                         String supplierName = (String) AddProductDialog.this.supplierComboBox.getSelectedItem();
                         Supplier newProductSupplier = AddProductDialog.this.supplierService.getSupplierRepository().searchSupplierByName(supplierName);
 
-                        Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductQuantity, newProductUnitPrice, newProductSupplier);
+                        Product newProduct = new Product(newProductId, newProductName, newProductCategory, newProductSupplier);
 
                         AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
                         AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());

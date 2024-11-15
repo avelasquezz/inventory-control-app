@@ -56,7 +56,7 @@ public class ManageProductsView extends JFrame {
         this.productsTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.productsTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Id", "Name", "Category", "Quantity", "Unit Price", "Supplier"};
+        String[] tableColumns = {"Id", "Name", "Category", "Supplier"};
         this.productsTableModel = new DefaultTableModel(tableColumns, 0);
         this.productsTable = new JTable(productsTableModel);
 

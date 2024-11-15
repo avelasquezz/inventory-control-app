@@ -39,12 +39,12 @@ public class MovementService {
         for (Movement movement : movementRepository.getMovementsList()) {
             String[] tableRow = {
                 String.valueOf(movement.getId()), 
-                movement.getDescription(), 
                 movement.getDate().toString(), 
-                movement.getProduct().getName(), 
                 movement.getType(),
-                String.valueOf(movement.getOldQuantity()),
-                String.valueOf(movement.getNewQuantity())
+                String.valueOf(movement.getQuantity()),
+                String.valueOf(movement.getUnitPrice()),
+                movement.getDescription(), 
+                movement.getProduct().getName(), 
             };
             movementsTableModel.addRow(tableRow);
         }

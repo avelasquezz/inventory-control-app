@@ -22,16 +22,14 @@ public class ModifyStockDialog extends JDialog {
     private ProductService productService;
     private MovementService movementService;
 
-    private JLabel currentQuantityLabel;
-    private JLabel currentQuantityValueLabel;
-    private JLabel quantityToAddTextFieldLabel;
-    private JTextField quantityToAddTextField;
+    private JLabel quantityTextFieldLabel;
+    private JTextField quantityTextField;
+    private JLabel unitPriceTextFieldLabel;
+    private JTextField unitPriceTextField;
     private JLabel descriptionTextAreaLabel;
     private JTextArea descriptionTextArea;
-    private JLabel addStockOptionLabel;
-    private JRadioButton addStockOption;
-    private JLabel reduceStockOptionLabel;
-    private JRadioButton reduceStockOption;
+    private JLabel movementTypeComboBoxLabel;
+    private JComboBox<String> movementTypeComboBox;
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
@@ -41,7 +39,7 @@ public class ModifyStockDialog extends JDialog {
 
         // Dialog config
         setTitle("Add Stock");
-        setSize(300, 500);
+        setSize(300, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // UI components
@@ -50,22 +48,32 @@ public class ModifyStockDialog extends JDialog {
         dialogPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         dialogPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
         
-        this.currentQuantityLabel = new JLabel("Current quantity");
-        this.currentQuantityLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.currentQuantityLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.quantityTextFieldLabel = new JLabel("Movement quantity");
+        this.quantityTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.quantityTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        this.quantityTextField = new JTextField();
+        this.quantityTextField.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.quantityTextField.setMaximumSize(new Dimension(200, 40));
+        this.quantityTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        this.currentQuantityValueLabel = new JLabel((String) productsTable.getValueAt(productsTable.getSelectedRow(), 3));
-        this.currentQuantityValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        this.currentQuantityValueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.unitPriceTextFieldLabel = new JLabel("Unit price");
+        this.unitPriceTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.unitPriceTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.quantityToAddTextFieldLabel = new JLabel("Movement quantity");
-        this.quantityToAddTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.quantityToAddTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.unitPriceTextField = new JTextField();
+        this.unitPriceTextField.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.unitPriceTextField.setMaximumSize(new Dimension(200, 40));
+        this.unitPriceTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        this.movementTypeComboBoxLabel = new JLabel("Type");
+        this.movementTypeComboBoxLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.movementTypeComboBoxLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.quantityToAddTextField = new JTextField();
-        this.quantityToAddTextField.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.quantityToAddTextField.setMaximumSize(new Dimension(200, 40));
-        this.quantityToAddTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
+        String[] options = {"Venta", "Compra"};
+        this.movementTypeComboBox = new JComboBox<>(options);
+        this.movementTypeComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.movementTypeComboBox.setMaximumSize(new Dimension(200, 40));
         
         this.descriptionTextAreaLabel = new JLabel("Movement description");
         this.descriptionTextAreaLabel.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -76,38 +84,6 @@ public class ModifyStockDialog extends JDialog {
         this.descriptionTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.descriptionTextArea.setLineWrap(true);
         this.descriptionTextArea.setWrapStyleWord(true);
-        
-        // Crete subpanel to organize rabio buttons
-        JPanel radioButtonsPanel = new JPanel();
-        radioButtonsPanel.setLayout(new BoxLayout(radioButtonsPanel, BoxLayout.X_AXIS));
-
-        this.addStockOptionLabel = new JLabel("Add stock");
-        this.addStockOptionLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.addStockOptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.addStockOption = new JRadioButton();
-        
-        this.reduceStockOptionLabel = new JLabel("Reduce stock");
-        this.reduceStockOptionLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.reduceStockOptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.reduceStockOption = new JRadioButton();
-
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(addStockOption);
-        buttonGroup.add(reduceStockOption);
-
-        radioButtonsPanel.add(Box.createHorizontalGlue());
-        
-        radioButtonsPanel.add(addStockOption);
-        radioButtonsPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        radioButtonsPanel.add(addStockOptionLabel);
-        radioButtonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        radioButtonsPanel.add(reduceStockOption);
-        radioButtonsPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        radioButtonsPanel.add(reduceStockOptionLabel);
-        
-        radioButtonsPanel.add(Box.createHorizontalGlue());
     
         this.acceptButton = new JButton("Accept");
         this.acceptButton.setFont(new Font("Arial", Font.BOLD, 24));
@@ -126,19 +102,22 @@ public class ModifyStockDialog extends JDialog {
         // Add components to panel
         dialogPanel.add(Box.createVerticalGlue());
         
-        dialogPanel.add(this.currentQuantityLabel);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.currentQuantityValueLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(this.quantityToAddTextFieldLabel);
+        dialogPanel.add(this.quantityTextFieldLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.quantityToAddTextField);
+        dialogPanel.add(this.quantityTextField);
+        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        dialogPanel.add(this.unitPriceTextFieldLabel);
+        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        dialogPanel.add(this.unitPriceTextField);
+        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        dialogPanel.add(this.movementTypeComboBoxLabel);
+        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        dialogPanel.add(this.movementTypeComboBox);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         dialogPanel.add(this.descriptionTextAreaLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         dialogPanel.add(new JScrollPane(this.descriptionTextArea));
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(radioButtonsPanel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         dialogPanel.add(this.acceptButton);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -153,24 +132,14 @@ public class ModifyStockDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int newMovementId = ModifyStockDialog.this.movementService.generateId();
-                    String newMovementDescription = ModifyStockDialog.this.descriptionTextArea.getText();
                     LocalDate newMovementDate = LocalDate.now();
+                    String newMovementType = (String) ModifyStockDialog.this.movementTypeComboBox.getSelectedItem();
+                    int newMovementQuantity = Integer.parseInt(ModifyStockDialog.this.quantityTextField.getText());
+                    double newMovementUnitPrice = Double.parseDouble(ModifyStockDialog.this.unitPriceTextField.getText());
+                    String newMovementDescription = ModifyStockDialog.this.descriptionTextArea.getText();
                     Product newMovementProduct = ModifyStockDialog.this.productService.getProductRepository().searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
-                    String newMovementType = ModifyStockDialog.this.addStockOption.isSelected() ? "Add" : "Reduce";
-                    int oldMovementQuantity = newMovementProduct.getQuantity();
-                    int newMovementQuantity;
-                    
-                    if (ModifyStockDialog.this.addStockOption.isSelected()) {
-                        newMovementQuantity = newMovementProduct.getQuantity() + Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText());
-                        newMovementProduct.setQuantity(newMovementQuantity);
-                    } else if (ModifyStockDialog.this.reduceStockOption.isSelected() & !(newMovementProduct.getQuantity() - Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText()) < 0) & !(newMovementDescription.equals(""))) {
-                        newMovementQuantity = newMovementProduct.getQuantity() - Integer.parseInt(ModifyStockDialog.this.quantityToAddTextField.getText());
-                        newMovementProduct.setQuantity(newMovementQuantity);
-                    } else {
-                        throw new NumberFormatException();
-                    }
     
-                    Movement newMovement = new Movement(newMovementId, newMovementDescription, newMovementDate, newMovementProduct, newMovementType, oldMovementQuantity, newMovementQuantity);
+                    Movement newMovement = new Movement(newMovementId, newMovementDate, newMovementType, newMovementQuantity, newMovementUnitPrice, newMovementDescription, newMovementProduct);
                     ModifyStockDialog.this.productService.getProductRepository().updateProduct(newMovementProduct);
 
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());

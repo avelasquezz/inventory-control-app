@@ -43,7 +43,7 @@ public class MovementsView extends JFrame {
         this.movementsTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.movementsTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Id", "Description", "Date", "Product", "Type", "Old stock", "New stock"};
+        String[] tableColumns = {"Id", "Date", "Type", "Quantity", "Unit Price", "Description", "Product"};
         this.movementsTableModel = new DefaultTableModel(tableColumns, 0);
         this.movementsTable = new JTable(movementsTableModel);
 

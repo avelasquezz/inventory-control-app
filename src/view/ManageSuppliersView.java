@@ -36,7 +36,7 @@ public class ManageSuppliersView extends JFrame {
         this.movementService = movementService;
 
         // Window config
-        setTitle("Inventory Control App | Manage Suppliers");
+        setTitle("MasterStock | Proveedores");
         setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -45,11 +45,11 @@ public class ManageSuppliersView extends JFrame {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
     
-        this.suppliersTableTitle = new JLabel("Suppliers List");
+        this.suppliersTableTitle = new JLabel("Lista de proveedores");
         this.suppliersTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.suppliersTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Id", "Name", "Address", "Phone Number"};
+        String[] tableColumns = {"Id", "Nombre", "Dirección", "Número de telefono"};
         this.suppliersTableModel = new DefaultTableModel(tableColumns, 0);
         this.suppliersTable = new JTable(suppliersTableModel);
 
@@ -68,8 +68,8 @@ public class ManageSuppliersView extends JFrame {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
 
-        this.backButton = new JButton("←");
-        this.backButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.backButton = new JButton("Volver");
+        this.backButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.backButton.setContentAreaFilled(true); 
     	this.backButton.setBorderPainted(false); 
     	this.backButton.setFocusPainted(false); 
@@ -77,8 +77,8 @@ public class ManageSuppliersView extends JFrame {
         this.backButton.setForeground(Color.WHITE);
         this.backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.addSupplierButton = new JButton("Add Supplier");
-        this.addSupplierButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.addSupplierButton = new JButton("Agregar");
+        this.addSupplierButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.addSupplierButton.setContentAreaFilled(true); 
     	this.addSupplierButton.setBorderPainted(false); 
     	this.addSupplierButton.setFocusPainted(false); 
@@ -86,8 +86,8 @@ public class ManageSuppliersView extends JFrame {
         this.addSupplierButton.setForeground(Color.WHITE);
         this.addSupplierButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.modifySupplierButton = new JButton("Modify Supplier");
-        this.modifySupplierButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.modifySupplierButton = new JButton("Modificar");
+        this.modifySupplierButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.modifySupplierButton.setContentAreaFilled(true); 
     	this.modifySupplierButton.setBorderPainted(false); 
     	this.modifySupplierButton.setFocusPainted(false); 
@@ -95,8 +95,8 @@ public class ManageSuppliersView extends JFrame {
         this.modifySupplierButton.setForeground(Color.WHITE);
         this.modifySupplierButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.removeSupplierButton = new JButton("Remove Supplier");
-        this.removeSupplierButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.removeSupplierButton = new JButton("Remover");
+        this.removeSupplierButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.removeSupplierButton.setContentAreaFilled(true); 
     	this.removeSupplierButton.setBorderPainted(false); 
     	this.removeSupplierButton.setFocusPainted(false); 

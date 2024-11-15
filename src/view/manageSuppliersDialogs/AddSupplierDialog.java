@@ -31,7 +31,7 @@ public class AddSupplierDialog extends JDialog {
         this.supplierService = supplierService;
         
         // Dialog config
-        setTitle("Add Supplier");
+        setTitle("Añadir proveedor");
         setSize(300, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -49,7 +49,7 @@ public class AddSupplierDialog extends JDialog {
         this.idValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
         this.idValueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.nameTextFieldLabel = new JLabel("Name");
+        this.nameTextFieldLabel = new JLabel("Nombre");
         this.nameTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.nameTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -58,7 +58,7 @@ public class AddSupplierDialog extends JDialog {
         this.nameTextField.setMaximumSize(new Dimension(200, 40));
         this.nameTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.addressTextFieldLabel = new JLabel("Address");
+        this.addressTextFieldLabel = new JLabel("Dirección");
         this.addressTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.addressTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -67,7 +67,7 @@ public class AddSupplierDialog extends JDialog {
         this.addressTextField.setMaximumSize(new Dimension(200, 40));
         this.addressTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.phoneNumberTextFieldLabel = new JLabel("Phone number");
+        this.phoneNumberTextFieldLabel = new JLabel("Número de teléfono");
         this.phoneNumberTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.phoneNumberTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -76,7 +76,7 @@ public class AddSupplierDialog extends JDialog {
         this.phoneNumberTextField.setMaximumSize(new Dimension(200, 40));
         this.phoneNumberTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.acceptButton = new JButton("Accept");
+        this.acceptButton = new JButton("Aceptar");
         this.acceptButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.acceptButton.setContentAreaFilled(true); 
     	this.acceptButton.setBorderPainted(false); 
@@ -133,7 +133,7 @@ public class AddSupplierDialog extends JDialog {
 
                     dispose();
                 } catch (NumberFormatException ex) {
-					AddSupplierDialog.this.errorMessageLabel.setText("Invalid data detected.");
+					AddSupplierDialog.this.errorMessageLabel.setText("Se detectaron datos no válidos.");
 				}
             }
         });

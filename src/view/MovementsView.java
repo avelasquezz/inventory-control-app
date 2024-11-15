@@ -30,7 +30,7 @@ public class MovementsView extends JFrame {
         this.movementService = movementService;
 
         // Window config
-        setTitle("Inventory Control App | Movements");
+        setTitle("MasterStock | Movimientos");
         setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -39,19 +39,19 @@ public class MovementsView extends JFrame {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
     
-        this.movementsTableTitle = new JLabel("Movements List");
+        this.movementsTableTitle = new JLabel("Lista de movimientos");
         this.movementsTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.movementsTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Id", "Date", "Type", "Quantity", "Unit Price", "Description", "Product"};
+        String[] tableColumns = {"Id", "Fecha", "Tipo", "Cantidad", "Precio unitario", "Descripción", "Producto"};
         this.movementsTableModel = new DefaultTableModel(tableColumns, 0);
         this.movementsTable = new JTable(movementsTableModel);
 
         JTableHeader movementsTableHeader = this.movementsTable.getTableHeader();
         movementsTableHeader.setFont(new Font("Arial", Font.BOLD, 14));
 
-        this.backButton = new JButton("←");
-        this.backButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.backButton = new JButton("Volver");
+        this.backButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.backButton.setContentAreaFilled(true); 
     	this.backButton.setBorderPainted(false); 
     	this.backButton.setFocusPainted(false); 

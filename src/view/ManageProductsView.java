@@ -43,7 +43,7 @@ public class ManageProductsView extends JFrame {
         this.movementService = movementService;
 
         // Window config
-        setTitle("Inventory Control App | Manage Products");
+        setTitle("MasterStock | Productos");
         setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -52,11 +52,11 @@ public class ManageProductsView extends JFrame {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
     
-        this.productsTableTitle = new JLabel("Products List");
+        this.productsTableTitle = new JLabel("Lista de productos");
         this.productsTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.productsTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Id", "Name", "Category", "Supplier"};
+        String[] tableColumns = {"Id", "Nombre", "Categoría", "Proveedor"};
         this.productsTableModel = new DefaultTableModel(tableColumns, 0);
         this.productsTable = new JTable(productsTableModel);
 
@@ -73,7 +73,7 @@ public class ManageProductsView extends JFrame {
         JPanel searchFieldPanel = new JPanel();
         searchFieldPanel.setLayout(new BoxLayout(searchFieldPanel, BoxLayout.X_AXIS));
 
-        this.searchButton = new JButton("🔍");
+        this.searchButton = new JButton("Buscar");
         this.searchButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.searchButton.setContentAreaFilled(true); 
     	this.searchButton.setBorderPainted(false); 
@@ -109,8 +109,8 @@ public class ManageProductsView extends JFrame {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
 
-        this.backButton = new JButton("←");
-        this.backButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.backButton = new JButton("Volver");
+        this.backButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.backButton.setContentAreaFilled(true); 
     	this.backButton.setBorderPainted(false); 
     	this.backButton.setFocusPainted(false); 
@@ -118,8 +118,8 @@ public class ManageProductsView extends JFrame {
         this.backButton.setForeground(Color.WHITE);
         this.backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.addProductButton = new JButton("Add Product");
-        this.addProductButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.addProductButton = new JButton("Agregar");
+        this.addProductButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.addProductButton.setContentAreaFilled(true); 
     	this.addProductButton.setBorderPainted(false); 
     	this.addProductButton.setFocusPainted(false); 
@@ -127,8 +127,8 @@ public class ManageProductsView extends JFrame {
         this.addProductButton.setForeground(Color.WHITE);
         this.addProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.modifyProductButton = new JButton("Modify Product");
-        this.modifyProductButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.modifyProductButton = new JButton("Modificar");
+        this.modifyProductButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.modifyProductButton.setContentAreaFilled(true); 
     	this.modifyProductButton.setBorderPainted(false); 
     	this.modifyProductButton.setFocusPainted(false); 
@@ -136,8 +136,8 @@ public class ManageProductsView extends JFrame {
         this.modifyProductButton.setForeground(Color.WHITE);
         this.modifyProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.removeProductButton = new JButton("Remove Product");
-        this.removeProductButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.removeProductButton = new JButton("Remover");
+        this.removeProductButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.removeProductButton.setContentAreaFilled(true); 
     	this.removeProductButton.setBorderPainted(false); 
     	this.removeProductButton.setFocusPainted(false); 
@@ -145,8 +145,8 @@ public class ManageProductsView extends JFrame {
         this.removeProductButton.setForeground(Color.WHITE);
         this.removeProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.modifyStockButton = new JButton("Modify Stock");
-        this.modifyStockButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.modifyStockButton = new JButton("Modificar existencias");
+        this.modifyStockButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.modifyStockButton.setContentAreaFilled(true); 
     	this.modifyStockButton.setBorderPainted(false); 
     	this.modifyStockButton.setFocusPainted(false); 
@@ -154,8 +154,8 @@ public class ManageProductsView extends JFrame {
         this.modifyStockButton.setForeground(Color.WHITE);
         this.modifyStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.viewMovementsButton = new JButton("View Movements");
-        this.viewMovementsButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.viewMovementsButton = new JButton("Ver movimientos");
+        this.viewMovementsButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.viewMovementsButton.setContentAreaFilled(true); 
     	this.viewMovementsButton.setBorderPainted(false); 
     	this.viewMovementsButton.setFocusPainted(false); 
@@ -202,7 +202,7 @@ public class ManageProductsView extends JFrame {
                 List<Product> foundProducts = ManageProductsView.this.productService.getProductRepository().searchProductsByName(searchedName);
                 
                 if (foundProducts.size() == 0) {
-                    ManageProductsView.this.searchErrorMessageLabel.setText("Product does not exists.");
+                    ManageProductsView.this.searchErrorMessageLabel.setText("El producto no existe.");
                     ManageProductsView.this.productService.updateTable(productsTableModel);
                 } else {
                     ManageProductsView.this.searchErrorMessageLabel.setText("");

@@ -38,7 +38,7 @@ public class ModifyStockDialog extends JDialog {
         this.movementService = movementService;
 
         // Dialog config
-        setTitle("Add Stock");
+        setTitle("Modificar existencias");
         setSize(300, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -48,7 +48,7 @@ public class ModifyStockDialog extends JDialog {
         dialogPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         dialogPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
         
-        this.quantityTextFieldLabel = new JLabel("Movement quantity");
+        this.quantityTextFieldLabel = new JLabel("Cantidad");
         this.quantityTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.quantityTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -57,7 +57,7 @@ public class ModifyStockDialog extends JDialog {
         this.quantityTextField.setMaximumSize(new Dimension(200, 40));
         this.quantityTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        this.unitPriceTextFieldLabel = new JLabel("Unit price");
+        this.unitPriceTextFieldLabel = new JLabel("Precio unitario");
         this.unitPriceTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.unitPriceTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -66,7 +66,7 @@ public class ModifyStockDialog extends JDialog {
         this.unitPriceTextField.setMaximumSize(new Dimension(200, 40));
         this.unitPriceTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        this.movementTypeComboBoxLabel = new JLabel("Type");
+        this.movementTypeComboBoxLabel = new JLabel("Tipo de movimiento");
         this.movementTypeComboBoxLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.movementTypeComboBoxLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -75,7 +75,7 @@ public class ModifyStockDialog extends JDialog {
         this.movementTypeComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
         this.movementTypeComboBox.setMaximumSize(new Dimension(200, 40));
         
-        this.descriptionTextAreaLabel = new JLabel("Movement description");
+        this.descriptionTextAreaLabel = new JLabel("Descripción");
         this.descriptionTextAreaLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.descriptionTextAreaLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -85,7 +85,7 @@ public class ModifyStockDialog extends JDialog {
         this.descriptionTextArea.setLineWrap(true);
         this.descriptionTextArea.setWrapStyleWord(true);
     
-        this.acceptButton = new JButton("Accept");
+        this.acceptButton = new JButton("Aceptar");
         this.acceptButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.acceptButton.setContentAreaFilled(true); 
     	this.acceptButton.setBorderPainted(false); 
@@ -147,7 +147,7 @@ public class ModifyStockDialog extends JDialog {
 
                     dispose();
                 } catch (NumberFormatException ex) {
-					ModifyStockDialog.this.errorMessageLabel.setText("Invalid data detected.");
+					ModifyStockDialog.this.errorMessageLabel.setText("Se detectaron datos no válidos.");
 				}
             }
         });

@@ -34,7 +34,7 @@ public class LoginView extends JFrame {
         this.movementService = movementService;
 
         // Window config
-        setTitle("Inventory Control App | Login");
+        setTitle("MasterStock | Ingresar");
         setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -43,11 +43,11 @@ public class LoginView extends JFrame {
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
 
-        this.titleLabel = new JLabel("Inventory Control App");
+        this.titleLabel = new JLabel("MasterStock");
         this.titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
         this.titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.emailAddressTextFieldLabel = new JLabel("Email Address");
+        this.emailAddressTextFieldLabel = new JLabel("Correo electrónico");
         this.emailAddressTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.emailAddressTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -56,7 +56,7 @@ public class LoginView extends JFrame {
         this.emailAddressTextField.setMaximumSize(new Dimension(400, 40));
         this.emailAddressTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.passwordTextFieldLabel = new JLabel("Password");
+        this.passwordTextFieldLabel = new JLabel("Contraseña");
         this.passwordTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.passwordTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
@@ -70,7 +70,7 @@ public class LoginView extends JFrame {
         this.errorMessageLabel.setForeground(new Color(235, 87, 87)); // Set red color
         this.errorMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.loginButton = new JButton("Login");
+        this.loginButton = new JButton("Ingresar");
         this.loginButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.loginButton.setContentAreaFilled(true); 
     	this.loginButton.setBorderPainted(false); 
@@ -109,7 +109,7 @@ public class LoginView extends JFrame {
 
                 if (LoginView.this.userService.validateUser(emailAddress, password)) {
                     User validatedUser = LoginView.this.userService.getUserRepository().searchUserByEmailAddress(emailAddress);
-                    String welcomeMessage = "¡Welcome, " + validatedUser.getName() + "!";
+                    String welcomeMessage = "¡Bienvenido, " + validatedUser.getName() + "!";
 
                     LoginView.this.emailAddressTextField.setText("");
                     LoginView.this.passwordTextField.setText("");
@@ -119,7 +119,7 @@ public class LoginView extends JFrame {
                     DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService);
                     dashboardView.showWindow();
                 } else {
-                    LoginView.this.errorMessageLabel.setText("Incorrect password or email.");
+                    LoginView.this.errorMessageLabel.setText("Usuario o correo incorrecto.");
                 }
             }
         });

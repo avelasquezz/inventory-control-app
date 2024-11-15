@@ -29,7 +29,7 @@ public class DashboardView extends JFrame {
         this.movementService = movementService;
         
         // Window config
-        setTitle("Inventory Control App | Home");
+        setTitle("MasterStock | Panel de Control");
         setSize(750, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -42,7 +42,7 @@ public class DashboardView extends JFrame {
         this.welcomeMessageLabel.setFont(new Font("Arial", Font.BOLD, 48));
         this.welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.manageUsersButton = new JButton("Manage Users");
+        this.manageUsersButton = new JButton("Usuarios");
         this.manageUsersButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.manageUsersButton.setContentAreaFilled(true); 
     	this.manageUsersButton.setBorderPainted(false); 
@@ -51,7 +51,7 @@ public class DashboardView extends JFrame {
         this.manageUsersButton.setForeground(Color.WHITE);
         this.manageUsersButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.manageProductsButton = new JButton("Manage Products");
+        this.manageProductsButton = new JButton("Productos");
         this.manageProductsButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.manageProductsButton.setContentAreaFilled(true); 
     	this.manageProductsButton.setBorderPainted(false); 
@@ -60,7 +60,7 @@ public class DashboardView extends JFrame {
         this.manageProductsButton.setForeground(Color.WHITE);
         this.manageProductsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.manageSuppliersButton = new JButton("Manage Suppliers");
+        this.manageSuppliersButton = new JButton("Proveedores");
         this.manageSuppliersButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.manageSuppliersButton.setContentAreaFilled(true); 
     	this.manageSuppliersButton.setBorderPainted(false); 
@@ -69,7 +69,7 @@ public class DashboardView extends JFrame {
         this.manageSuppliersButton.setForeground(Color.WHITE);
         this.manageSuppliersButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.logOutButton = new JButton("Log Out");
+        this.logOutButton = new JButton("Salir");
         this.logOutButton.setFont(new Font("Arial", Font.BOLD, 24));
         this.logOutButton.setContentAreaFilled(true); 
     	this.logOutButton.setBorderPainted(false); 

@@ -20,6 +20,7 @@ public class ManageSuppliersView extends JFrame {
     private ProductService productService;
     private SupplierService supplierService;
     private MovementService movementService;
+    private InventoryService inventoryService;
     
     private JLabel suppliersTableTitle;
     private DefaultTableModel suppliersTableModel;
@@ -29,11 +30,12 @@ public class ManageSuppliersView extends JFrame {
     private JButton modifySupplierButton;
     private JButton removeSupplierButton;
 
-    public ManageSuppliersView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+    public ManageSuppliersView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
 
         // Window config
         setTitle("MasterStock | Proveedores");
@@ -130,7 +132,7 @@ public class ManageSuppliersView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService);
+                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService, ManageSuppliersView.this.inventoryService);
                 dashboardView.showWindow();
             }
         });
@@ -148,7 +150,7 @@ public class ManageSuppliersView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageSuppliersView.this.suppliersTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifySupplierDialog modifySupplierDialog = new ModifySupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierService);
+                    ModifySupplierDialog modifySupplierDialog = new ModifySupplierDialog(ManageSuppliersView.this.suppliersTable, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.productService);
                     modifySupplierDialog.showDialog();
                 }
             }

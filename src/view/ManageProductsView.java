@@ -22,6 +22,7 @@ public class ManageProductsView extends JFrame {
     private ProductService productService;
     private SupplierService supplierService;
     private MovementService movementService;
+    private InventoryService inventoryService;
     
     private JLabel productsTableTitle;
     private JButton searchButton;
@@ -34,13 +35,13 @@ public class ManageProductsView extends JFrame {
     private JButton modifyProductButton;
     private JButton removeProductButton;
     private JButton modifyStockButton;
-    private JButton viewMovementsButton;
 
-    public ManageProductsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+    public ManageProductsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
 
         // Window config
         setTitle("MasterStock | Productos");
@@ -144,7 +145,7 @@ public class ManageProductsView extends JFrame {
         this.removeProductButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.removeProductButton.setForeground(Color.WHITE);
         this.removeProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         this.modifyStockButton = new JButton("Modificar existencias");
         this.modifyStockButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.modifyStockButton.setContentAreaFilled(true); 
@@ -153,15 +154,6 @@ public class ManageProductsView extends JFrame {
         this.modifyStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.modifyStockButton.setForeground(Color.WHITE);
         this.modifyStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        this.viewMovementsButton = new JButton("Ver movimientos");
-        this.viewMovementsButton.setFont(new Font("Arial", Font.BOLD, 16));
-        this.viewMovementsButton.setContentAreaFilled(true); 
-    	this.viewMovementsButton.setBorderPainted(false); 
-    	this.viewMovementsButton.setFocusPainted(false); 
-        this.viewMovementsButton.setBackground(new Color(175, 128, 232)); // Set violet color
-        this.viewMovementsButton.setForeground(Color.WHITE);
-        this.viewMovementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
@@ -173,10 +165,8 @@ public class ManageProductsView extends JFrame {
         buttonsPanel.add(this.modifyProductButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.removeProductButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(this.modifyStockButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        buttonsPanel.add(this.viewMovementsButton);
+        buttonsPanel.add(this.modifyStockButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -215,7 +205,7 @@ public class ManageProductsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService);
+                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService);
                 dashboardView.showWindow();
             }
         });
@@ -223,7 +213,7 @@ public class ManageProductsView extends JFrame {
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddProductDialog addProductDialog = new AddProductDialog(productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService);
+                AddProductDialog addProductDialog = new AddProductDialog(productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.inventoryService);
                 addProductDialog.showDialog();
             }
         });
@@ -233,7 +223,7 @@ public class ManageProductsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifyProductDialog modifyProductDialog = new ModifyProductDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService);
+                    ModifyProductDialog modifyProductDialog = new ModifyProductDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.inventoryService);
                     modifyProductDialog.showDialog();
                 }
             }
@@ -256,19 +246,9 @@ public class ManageProductsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService);
+                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService);
                     modifyStockDialog.showDialog();
                 }
-            }
-        });
-
-        viewMovementsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                
-                MovementsView movementsView = new MovementsView(welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService);
-                movementsView.showWindow();
             }
         });
     }

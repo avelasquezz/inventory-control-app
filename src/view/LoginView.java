@@ -18,6 +18,7 @@ public class LoginView extends JFrame {
     private ProductService productService;
     private SupplierService supplierService;
     private MovementService movementService;
+    private InventoryService inventoryService;
     
     private JLabel titleLabel;
     private JLabel emailAddressTextFieldLabel;
@@ -27,11 +28,12 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
 
-    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
 
         // Window config
         setTitle("MasterStock | Ingresar");
@@ -109,14 +111,14 @@ public class LoginView extends JFrame {
 
                 if (LoginView.this.userService.validateUser(emailAddress, password)) {
                     User validatedUser = LoginView.this.userService.getUserRepository().searchUserByEmailAddress(emailAddress);
-                    String welcomeMessage = "¡Bienvenido, " + validatedUser.getName() + "!";
+                    String welcomeMessage = "¡Hola, " + validatedUser.getName() + " " + validatedUser.getLastName() + "!";
 
                     LoginView.this.emailAddressTextField.setText("");
                     LoginView.this.passwordTextField.setText("");
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService);
+                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Usuario o correo incorrecto.");

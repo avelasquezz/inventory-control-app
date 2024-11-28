@@ -2,6 +2,7 @@ package service;
 
 import repository.ProductRepository;
 import model.Product;
+import model.Supplier;
 
 import java.util.Random;
 import javax.swing.table.DefaultTableModel;
@@ -62,5 +63,16 @@ public class ProductService {
         }
 
         productsTableModel.fireTableDataChanged();
+    }
+
+    public void updateProductsSupplier(Supplier supplier) {
+        List<Product> productsList = productRepository.getProductsList();
+        
+        for (Product product : productsList) {
+            if (product.getSupplier().getId() == supplier.getId()) {
+                Product modifiedProduct = new Product(product.getId(), product.getName(), product.getCategory(), supplier);
+                productRepository.updateProduct(modifiedProduct);
+            }
+        }
     }
 }

@@ -2,6 +2,8 @@ package view.manageProductsDialogs;
 
 import service.ProductService;
 import service.SupplierService;
+import service.InventoryService;
+import model.Inventory;
 import model.Product;
 import model.Supplier;
 
@@ -18,6 +20,7 @@ import java.awt.event.ActionListener;
 public class ModifyProductDialog extends JDialog {
     private ProductService productService;
     private SupplierService supplierService;
+    private InventoryService inventoryService;
 
     private JLabel idLabel;
     private JLabel idValueLabel;
@@ -30,9 +33,10 @@ public class ModifyProductDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService) {
+    public ModifyProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService, InventoryService inventoryService) {
         this.productService = productService;
         this.supplierService = supplierService;
+        this.inventoryService = inventoryService;
         
         // Dialog config
         setTitle("Modificar producto");
@@ -134,6 +138,11 @@ public class ModifyProductDialog extends JDialog {
             
                     ModifyProductDialog.this.productService.getProductRepository().updateProduct(modifiedProduct);
                     ModifyProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
+
+                    Inventory originalInventory = ModifyProductDialog.this.inventoryService.getInventoryRepository().searchInventoryByProduct(modifiedProduct);
+                    Inventory modifiedInventory = new Inventory(modifiedProduct, originalInventory.getBalance(), originalInventory.getUnitPrice(), originalInventory.getTotalPrice());
+
+                    ModifyProductDialog.this.inventoryService.getInventoryRepository().updateInventory(modifiedInventory);
 
                     dispose();
                 } catch (NumberFormatException ex) {

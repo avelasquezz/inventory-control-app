@@ -17,17 +17,19 @@ public class MovementsView extends JFrame {
     private ProductService productService;
     private SupplierService supplierService;
     private MovementService movementService;
+    private InventoryService inventoryService;
     
     private JLabel movementsTableTitle;
     private DefaultTableModel movementsTableModel;
     private JTable movementsTable;
     private JButton backButton;
 
-    public MovementsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+    public MovementsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
 
         // Window config
         setTitle("MasterStock | Movimientos");
@@ -80,8 +82,8 @@ public class MovementsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
 
-                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService);
-                manageProductsView.showWindow();
+                SeeInventoryView seeInventoryView = new SeeInventoryView(welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService, MovementsView.this.inventoryService);
+                seeInventoryView.showWindow();
             }
         });
     }

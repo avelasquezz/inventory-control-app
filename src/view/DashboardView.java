@@ -15,18 +15,21 @@ public class DashboardView extends JFrame {
     private ProductService productService;
     private SupplierService supplierService;
     private MovementService movementService;
+    private InventoryService inventoryService;
     
     private JLabel welcomeMessageLabel;
+    private JButton seeInventoryButton;
     private JButton manageUsersButton;
     private JButton manageProductsButton;
     private JButton manageSuppliersButton;
     private JButton logOutButton;
 
-    public DashboardView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService) {
+    public DashboardView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
         
         // Window config
         setTitle("MasterStock | Panel de Control");
@@ -41,6 +44,15 @@ public class DashboardView extends JFrame {
         this.welcomeMessageLabel = new JLabel(welcomeMessage);
         this.welcomeMessageLabel.setFont(new Font("Arial", Font.BOLD, 48));
         this.welcomeMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.seeInventoryButton = new JButton("Ver inventario");
+        this.seeInventoryButton.setFont(new Font("Arial", Font.BOLD, 24));
+        this.seeInventoryButton.setContentAreaFilled(true); 
+    	this.seeInventoryButton.setBorderPainted(false); 
+    	this.seeInventoryButton.setFocusPainted(false); 
+        this.seeInventoryButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.seeInventoryButton.setForeground(Color.WHITE);
+        this.seeInventoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.manageUsersButton = new JButton("Usuarios");
         this.manageUsersButton.setFont(new Font("Arial", Font.BOLD, 24));
@@ -83,6 +95,8 @@ public class DashboardView extends JFrame {
 
         homePanel.add(this.welcomeMessageLabel);
         homePanel.add(Box.createRigidArea(new Dimension(0, 100)));
+        homePanel.add(this.seeInventoryButton);
+        homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         homePanel.add(this.manageUsersButton);
         homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         homePanel.add(this.manageProductsButton);
@@ -96,12 +110,12 @@ public class DashboardView extends JFrame {
         add(homePanel);
 
         // Button actions
-        logOutButton.addActionListener(new ActionListener() {
+        seeInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                LoginView loginView = new LoginView(DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
-                loginView.showWindow();
+                SeeInventoryView seeInventoryView = new SeeInventoryView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService, DashboardView.this.inventoryService);
+                seeInventoryView.showWindow();
             }
         });
 
@@ -109,7 +123,7 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
+                ManageProductsView manageProductsView = new ManageProductsView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService, DashboardView.this.inventoryService);
                 manageProductsView.showWindow();
             }
         });
@@ -118,8 +132,17 @@ public class DashboardView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ManageSuppliersView manageSuppliersView = new ManageSuppliersView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService);
+                ManageSuppliersView manageSuppliersView = new ManageSuppliersView(welcomeMessage, DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService, DashboardView.this.inventoryService);
                 manageSuppliersView.showWindow();
+            }
+        });
+
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                LoginView loginView = new LoginView(DashboardView.this.userService, DashboardView.this.productService, DashboardView.this.supplierService, DashboardView.this.movementService, DashboardView.this.inventoryService);
+                loginView.showWindow();
             }
         });
     }

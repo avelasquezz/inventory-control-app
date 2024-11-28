@@ -1,12 +1,14 @@
 package view.manageProductsDialogs;
 
 import service.ProductService;
+import service.InventoryService;
 import service.MovementService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import model.Inventory;
 import model.Movement;
 import model.Product;
 
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 public class ModifyStockDialog extends JDialog {
     private ProductService productService;
     private MovementService movementService;
+    private InventoryService inventoryService;
 
     private JLabel quantityTextFieldLabel;
     private JTextField quantityTextField;
@@ -33,9 +36,10 @@ public class ModifyStockDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService) {
+    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService) {
         this.productService = productService;
         this.movementService = movementService;
+        this.inventoryService = inventoryService;
 
         // Dialog config
         setTitle("Modificar existencias");
@@ -144,6 +148,13 @@ public class ModifyStockDialog extends JDialog {
 
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
                     ModifyStockDialog.this.movementService.getMovementRepository().addMovement(newMovement);
+
+                    int newInventoryBalance = ModifyStockDialog.this.inventoryService.calculateBalance(movementService, newMovementProduct);
+                    double newInventoryUnitPrice = ModifyStockDialog.this.inventoryService.calculateUnitPrice(movementService, newMovementProduct);
+                    double newInventoryTotalPrice = ModifyStockDialog.this.inventoryService.calculateTotalPrice(movementService, newMovementProduct);
+
+                    Inventory newInventory = new Inventory(newMovementProduct, newInventoryBalance, newInventoryUnitPrice, newInventoryTotalPrice);
+                    inventoryService.getInventoryRepository().updateInventory(newInventory);
 
                     dispose();
                 } catch (NumberFormatException ex) {

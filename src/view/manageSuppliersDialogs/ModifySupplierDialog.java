@@ -1,5 +1,6 @@
 package view.manageSuppliersDialogs;
 
+import service.ProductService;
 import service.SupplierService;
 import model.Supplier;
 
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 
 public class ModifySupplierDialog extends JDialog {
     private SupplierService supplierService;
+    private ProductService productService;
 
     private JLabel idLabel;
     private JLabel idValueLabel;
@@ -27,8 +29,9 @@ public class ModifySupplierDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifySupplierDialog(JTable suppliersTable, SupplierService supplierService) {
+    public ModifySupplierDialog(JTable suppliersTable, SupplierService supplierService, ProductService productService) {
         this.supplierService = supplierService;
+        this.productService = productService;
         
         // Dialog config
         setTitle("Modificar proveedor");
@@ -130,6 +133,9 @@ public class ModifySupplierDialog extends JDialog {
                     
                     ModifySupplierDialog.this.supplierService.getSupplierRepository().updateSupplier(modifiedSupplier);
                     ModifySupplierDialog.this.supplierService.updateTable((DefaultTableModel) suppliersTable.getModel());
+                    
+                    ModifySupplierDialog.this.productService.updateProductsSupplier(modifiedSupplier);
+
 
                     dispose();
                 } catch (NumberFormatException ex) {

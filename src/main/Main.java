@@ -13,13 +13,15 @@ public class Main {
         ProductRepository productRepository = new ProductRepository();
         SupplierRepository supplierRepository = new SupplierRepository();
         MovementRepository movementRepository = new MovementRepository();
+        InventoryRepository inventoryRepository = new InventoryRepository();
         
         UserService userService = new UserService(userRepository);
         ProductService productService = new ProductService(productRepository);
         SupplierService supplierService = new SupplierService(supplierRepository);
         MovementService movementService = new MovementService(movementRepository);
+        InventoryService inventoryService = new InventoryService(inventoryRepository);
               
-        LoginView loginView = new LoginView(userService, productService, supplierService, movementService);
+        LoginView loginView = new LoginView(userService, productService, supplierService, movementService, inventoryService);
 
         User exampleUser1 = new User("ID", 1111, "John", "Doe", "12345", "john@example.com", "password123", true);
     	User exampleUser2 = new User("ID", 2222, "Jane", "Smith", "54321", "jane@example.com", "mypassword", true);

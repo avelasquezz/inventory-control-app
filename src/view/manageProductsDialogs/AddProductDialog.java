@@ -1,6 +1,7 @@
 package view.manageProductsDialogs;
 
 import service.*;
+import model.Inventory;
 import model.Product;
 import model.Supplier;
 
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 public class AddProductDialog extends JDialog {
     private ProductService productService;
     private SupplierService supplierService;
+    private InventoryService inventoryService;
     
     private JLabel idLabel;
     private JLabel idValueLabel;
@@ -29,9 +31,10 @@ public class AddProductDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public AddProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService) {
+    public AddProductDialog(JTable productsTable, ProductService productService, SupplierService supplierService, InventoryService inventoryService) {
         this.productService = productService;
         this.supplierService = supplierService;
+        this.inventoryService = inventoryService;
         
         // Dialog config
         setTitle("Añadir producto");
@@ -137,6 +140,10 @@ public class AddProductDialog extends JDialog {
 
                         AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
                         AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
+
+                        Inventory newInventory = new Inventory(newProduct, 0, 0, 0);
+
+                        AddProductDialog.this.inventoryService.getInventoryRepository().addInventory(newInventory);
 
                         dispose();
                     }

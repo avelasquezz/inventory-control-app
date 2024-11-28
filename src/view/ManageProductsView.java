@@ -177,6 +177,11 @@ public class ManageProductsView extends JFrame {
 
         ManageProductsView.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
+        if (userAccesLevel.equals("Auxiliar")) {
+            modifyProductButton.setVisible(false);
+            removeProductButton.setVisible(false);
+        }
+
         // Button actions
         searchButton.addActionListener(new ActionListener() {
             @Override

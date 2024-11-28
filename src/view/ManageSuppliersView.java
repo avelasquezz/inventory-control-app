@@ -125,6 +125,11 @@ public class ManageSuppliersView extends JFrame {
 
         add(tablePanel);
 
+        if (userAccesLevel.equals("Auxiliar")) {
+            modifySupplierButton.setVisible(false);
+            removeSupplierButton.setVisible(false);
+        }
+
         ManageSuppliersView.this.supplierService.updateTable((DefaultTableModel) suppliersTable.getModel());
 
         // Button actions

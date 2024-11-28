@@ -109,6 +109,10 @@ public class DashboardView extends JFrame {
 
         add(homePanel);
 
+        if (userAccesLevel.equals("Auxiliar")) {
+            manageUsersButton.setVisible(false);
+        }
+
         // Button actions
         seeInventoryButton.addActionListener(new ActionListener() {
             @Override

@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class SeeInventoryView extends JFrame {
     private UserService userService;
@@ -24,6 +25,7 @@ public class SeeInventoryView extends JFrame {
     private JTable inventoryTable;
     private JButton backButton;
     private JButton viewMovementsButton;
+    private JButton exportAsCSVButton;
 
     public SeeInventoryView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
@@ -82,6 +84,15 @@ public class SeeInventoryView extends JFrame {
         this.viewMovementsButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.viewMovementsButton.setForeground(Color.WHITE);
         this.viewMovementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.exportAsCSVButton = new JButton("Exportar como CSV");
+        this.exportAsCSVButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.exportAsCSVButton.setContentAreaFilled(true); 
+    	this.exportAsCSVButton.setBorderPainted(false); 
+    	this.exportAsCSVButton.setFocusPainted(false); 
+        this.exportAsCSVButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.exportAsCSVButton.setForeground(Color.WHITE);
+        this.exportAsCSVButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
@@ -89,6 +100,8 @@ public class SeeInventoryView extends JFrame {
         buttonsPanel.add(this.backButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.viewMovementsButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonsPanel.add(this.exportAsCSVButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -109,8 +122,6 @@ public class SeeInventoryView extends JFrame {
             }
         });
 
-        
-
         viewMovementsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,6 +129,33 @@ public class SeeInventoryView extends JFrame {
                 
                 MovementsView movementsView = new MovementsView(welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
                 movementsView.showWindow();
+            }
+        });
+
+        exportAsCSVButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String[] tableColumns = {"Producto", "Balance", "Precio promedio", "Costo total"};
+                    int selectedRow = SeeInventoryView.this.inventoryTable.getSelectedRow();
+
+                    if (selectedRow >= 0) {
+                        Object[] selectedRowData = new Object[SeeInventoryView.this.inventoryTable.getColumnCount()];
+
+                        for (int i = 0; i < SeeInventoryView.this.inventoryTable.getColumnCount(); i++) {
+                            selectedRowData[i] = SeeInventoryView.this.inventoryTable.getValueAt(selectedRow, i);
+                        }
+
+                        Object[][] newData = {selectedRowData};
+                        JTable singleRowTable = new JTable(new DefaultTableModel(newData, tableColumns));
+
+                        SeeInventoryView.this.inventoryService.exportAsCSV(singleRowTable);
+                    } else {
+                        SeeInventoryView.this.inventoryService.exportAsCSV(inventoryTable);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }

@@ -96,13 +96,13 @@ public class DashboardView extends JFrame {
         homePanel.add(this.welcomeMessageLabel);
         homePanel.add(Box.createRigidArea(new Dimension(0, 100)));
         homePanel.add(this.seeInventoryButton);
-        homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        homePanel.add(Box.createRigidArea(new Dimension(0, 30)));
         homePanel.add(this.manageUsersButton);
         homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         homePanel.add(this.manageProductsButton);
         homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         homePanel.add(this.manageSuppliersButton);
-        homePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        homePanel.add(Box.createRigidArea(new Dimension(0, 30)));
         homePanel.add(this.logOutButton);
 
         homePanel.add(Box.createVerticalGlue());

@@ -1,7 +1,12 @@
 package service;
 
+import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -47,7 +52,9 @@ public class InventoryService {
             if (movement.getProduct().getId() == product.getId() && movement.getType() == "Compra") {
                 balance = balance + movement.getQuantity(); 
             } else {
-                balance = balance - movement.getQuantity();
+                if (movement.getProduct().getId() == product.getId() && movement.getType() == "Venta") {
+                    balance = balance - movement.getQuantity();
+                }
             }
         }
 
@@ -87,5 +94,43 @@ public class InventoryService {
         double unitPrice = calculateUnitPrice(movementService, product);
 
         return balance * unitPrice;
+    }
+
+    public void exportAsCSV(JTable inventoryTable) throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+
+            if (fileToSave != null) {
+                String fileName = fileToSave.getAbsolutePath();
+
+                if (!fileName.endsWith(".csv")) {
+                    fileName += ".csv";
+                }
+                
+                try (FileWriter writer = new FileWriter(fileName)) { 
+                    for (int i = 0; i < inventoryTable.getColumnCount(); i++) {
+                        writer.write("\"" + inventoryTable.getColumnName(i) + "\"");
+                        if (i < inventoryTable.getColumnCount() - 1) {
+                            writer.write(",");
+                        }
+                    }
+                    writer.write("\n");
+
+                    for (int i = 0; i < inventoryTable.getRowCount(); i++) {
+                        for (int j = 0; j < inventoryTable.getColumnCount(); j++) {
+                            writer.write("\"" + inventoryTable.getValueAt(i, j).toString()+ "\"");
+                            if (j < inventoryTable.getColumnCount() - 1) {
+                                writer.write(",");
+                            }
+                        }
+                        writer.write("\n");
+                    }
+                }
+            }
+        }
     }
 }

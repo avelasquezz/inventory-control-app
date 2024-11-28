@@ -111,6 +111,8 @@ public class LoginView extends JFrame {
 
                 if (LoginView.this.userService.validateUser(emailAddress, password)) {
                     User validatedUser = LoginView.this.userService.getUserRepository().searchUserByEmailAddress(emailAddress);
+
+                    String userAccesLevel = validatedUser.getAccesLevel();
                     String welcomeMessage = "¡Hola, " + validatedUser.getName() + " " + validatedUser.getLastName() + "!";
 
                     LoginView.this.emailAddressTextField.setText("");
@@ -118,7 +120,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService);
+                    DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Usuario o correo incorrecto.");

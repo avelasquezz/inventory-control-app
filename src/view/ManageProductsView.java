@@ -36,7 +36,7 @@ public class ManageProductsView extends JFrame {
     private JButton removeProductButton;
     private JButton modifyStockButton;
 
-    public ManageProductsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public ManageProductsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
@@ -205,7 +205,7 @@ public class ManageProductsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService);
                 dashboardView.showWindow();
             }
         });

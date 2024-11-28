@@ -24,7 +24,7 @@ public class MovementsView extends JFrame {
     private JTable movementsTable;
     private JButton backButton;
 
-    public MovementsView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public MovementsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
@@ -82,7 +82,7 @@ public class MovementsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
 
-                SeeInventoryView seeInventoryView = new SeeInventoryView(welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService, MovementsView.this.inventoryService);
+                SeeInventoryView seeInventoryView = new SeeInventoryView(userAccesLevel, welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService, MovementsView.this.inventoryService);
                 seeInventoryView.showWindow();
             }
         });

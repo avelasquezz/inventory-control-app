@@ -9,9 +9,10 @@ public class User {
 	private String emailAddress;
 	private String password;
 	private boolean isActive;
+    private String accesLevel;
 
 	public User(String idType, int idNumber, String name, String lastName, String phoneNumber, String
-    emailAddress, String password, boolean isActive) {
+    emailAddress, String password, boolean isActive, String accesLevel) {
 		this.idType = idType;
 		this.idNumber = idNumber;
 		this.name = name;
@@ -20,6 +21,7 @@ public class User {
 		this.emailAddress = emailAddress;
 		this.password = password;
 		this.isActive = isActive;
+        this.accesLevel = accesLevel;
 	}
 
 	// Getter methods.
@@ -55,6 +57,10 @@ public class User {
 		return this.isActive;
 	}
 
+    public String getAccesLevel() {
+        return this.accesLevel;
+    }
+
 	// Setter methods.
     public void setIdType(String idType) {
         this.idType = idType;
@@ -87,4 +93,8 @@ public class User {
 	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
+    public void setAccesLevel(String accesLevel) {
+        this.accesLevel = accesLevel;
+    }
 }

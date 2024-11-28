@@ -27,7 +27,7 @@ public class SeeInventoryView extends JFrame {
     private JButton viewMovementsButton;
     private JButton exportAsCSVButton;
 
-    public SeeInventoryView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
@@ -117,7 +117,7 @@ public class SeeInventoryView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
                 dashboardView.showWindow();
             }
         });
@@ -127,7 +127,7 @@ public class SeeInventoryView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 
-                MovementsView movementsView = new MovementsView(welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
+                MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
                 movementsView.showWindow();
             }
         });

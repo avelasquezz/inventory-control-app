@@ -30,7 +30,7 @@ public class ManageSuppliersView extends JFrame {
     private JButton modifySupplierButton;
     private JButton removeSupplierButton;
 
-    public ManageSuppliersView(String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public ManageSuppliersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
@@ -132,7 +132,7 @@ public class ManageSuppliersView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService, ManageSuppliersView.this.inventoryService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService, ManageSuppliersView.this.inventoryService);
                 dashboardView.showWindow();
             }
         });

@@ -46,7 +46,7 @@ public class SeeInventoryView extends JFrame {
         this.inventoryTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.inventoryTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Producto", "Balance", "Precio unitario", "Precio total"};
+        String[] tableColumns = {"Producto", "Balance", "Precio promedio", "Costo total"};
         this.inventoryTableModel = new DefaultTableModel(tableColumns, 0);
         this.inventoryTable = new JTable(inventoryTableModel);
 

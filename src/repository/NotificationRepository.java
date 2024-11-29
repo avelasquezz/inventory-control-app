@@ -12,8 +12,8 @@ public class NotificationRepository {
         notificationsList.add(notificationToAdd);
     }
 
-    public void removeNotification(Notification NotificationToRemove) {
-        notificationsList.remove(NotificationToRemove);
+    public void removeNotification(Notification notificationToRemove) {
+        notificationsList.remove(notificationToRemove);
     }
 
     public List<Notification> getNotificationsList() {

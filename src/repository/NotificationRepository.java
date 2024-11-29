@@ -8,8 +8,8 @@ import model.Notification;
 public class NotificationRepository {
     private List<Notification> notificationsList = new ArrayList<>();
 
-    public void addNotification(Notification inventoryToAdd) {
-        notificationsList.add(inventoryToAdd);
+    public void addNotification(Notification notificationToAdd) {
+        notificationsList.add(notificationToAdd);
     }
 
     public void removeNotification(Notification NotificationToRemove) {

@@ -3,6 +3,7 @@ package view;
 import service.*;
 import model.Inventory;
 import model.Product;
+import view.seeInventoryDialogs.MakeSaleDialog;
 import view.seeInventoryDialogs.SetLimitsDialog;
 
 import javax.swing.*;
@@ -29,9 +30,10 @@ public class SeeInventoryView extends JFrame {
     private DefaultTableModel inventoryTableModel;
     private JTable inventoryTable;
     private JButton backButton;
+    private JButton makeSaleButton;
     private JButton viewMovementsButton;
-    private JButton exportAsCSVButton;
     private JButton setLimitsButton;
+    private JButton exportAsCSVButton;
 
     public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
@@ -83,6 +85,15 @@ public class SeeInventoryView extends JFrame {
         this.backButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.backButton.setForeground(Color.WHITE);
         this.backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.makeSaleButton = new JButton("Realizar venta");
+        this.makeSaleButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.makeSaleButton.setContentAreaFilled(true); 
+    	this.makeSaleButton.setBorderPainted(false); 
+    	this.makeSaleButton.setFocusPainted(false); 
+        this.makeSaleButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.makeSaleButton.setForeground(Color.WHITE);
+        this.makeSaleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         this.viewMovementsButton = new JButton("Ver movimientos");
         this.viewMovementsButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -93,15 +104,6 @@ public class SeeInventoryView extends JFrame {
         this.viewMovementsButton.setForeground(Color.WHITE);
         this.viewMovementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.exportAsCSVButton = new JButton("Exportar como CSV");
-        this.exportAsCSVButton.setFont(new Font("Arial", Font.BOLD, 16));
-        this.exportAsCSVButton.setContentAreaFilled(true); 
-    	this.exportAsCSVButton.setBorderPainted(false); 
-    	this.exportAsCSVButton.setFocusPainted(false); 
-        this.exportAsCSVButton.setBackground(new Color(175, 128, 232)); // Set violet color
-        this.exportAsCSVButton.setForeground(Color.WHITE);
-        this.exportAsCSVButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         this.setLimitsButton = new JButton("Establecer límites");
         this.setLimitsButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.setLimitsButton.setContentAreaFilled(true); 
@@ -110,17 +112,28 @@ public class SeeInventoryView extends JFrame {
         this.setLimitsButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.setLimitsButton.setForeground(Color.WHITE);
         this.setLimitsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.exportAsCSVButton = new JButton("Exportar como CSV");
+        this.exportAsCSVButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.exportAsCSVButton.setContentAreaFilled(true); 
+    	this.exportAsCSVButton.setBorderPainted(false); 
+    	this.exportAsCSVButton.setFocusPainted(false); 
+        this.exportAsCSVButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.exportAsCSVButton.setForeground(Color.WHITE);
+        this.exportAsCSVButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
         
         buttonsPanel.add(this.backButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonsPanel.add(this.makeSaleButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.viewMovementsButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(this.exportAsCSVButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonsPanel.add(this.setLimitsButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonsPanel.add(this.exportAsCSVButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -141,6 +154,14 @@ public class SeeInventoryView extends JFrame {
             }
         });
 
+        makeSaleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MakeSaleDialog makeSaleDialog = new MakeSaleDialog(inventoryTable, productService, movementService, inventoryService, notificationService, orderService);
+                makeSaleDialog.showDialog();
+            }
+        });
+
         viewMovementsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,6 +169,21 @@ public class SeeInventoryView extends JFrame {
                 
                 MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService, SeeInventoryView.this.orderService);
                 movementsView.showWindow();
+            }
+        });
+
+        setLimitsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = SeeInventoryView.this.inventoryTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    int inventoryProductId = Integer.parseInt(inventoryTable.getValueAt(inventoryTable.getSelectedRow(), 0).toString());
+                    Product inventoryProduct = productService.getProductRepository().searchProductById(inventoryProductId);
+                    Inventory inventory = inventoryService.getInventoryRepository().searchInventoryByProduct(inventoryProduct);
+
+                    SetLimitsDialog setLimitsDialog = new SetLimitsDialog(inventory, inventoryService);
+                    setLimitsDialog.showDialog();
+                }
             }
         });
 
@@ -174,21 +210,6 @@ public class SeeInventoryView extends JFrame {
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                }
-            }
-        });
-
-        setLimitsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = SeeInventoryView.this.inventoryTable.getSelectedRow();
-                if (selectedRow >= 0) {
-                    int inventoryProductId = Integer.parseInt(inventoryTable.getValueAt(inventoryTable.getSelectedRow(), 0).toString());
-                    Product inventoryProduct = productService.getProductRepository().searchProductById(inventoryProductId);
-                    Inventory inventory = inventoryService.getInventoryRepository().searchInventoryByProduct(inventoryProduct);
-
-                    SetLimitsDialog setLimitsDialog = new SetLimitsDialog(inventory, inventoryService);
-                    setLimitsDialog.showDialog();
                 }
             }
         });

@@ -1,4 +1,4 @@
-package view.manageProductsDialogs;
+package view.seeInventoryDialogs;
 
 import service.ProductService;
 import service.InventoryService;
@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-public class ModifyStockDialog extends JDialog {
+public class MakeSaleDialog extends JDialog {
     private ProductService productService;
     private MovementService movementService;
     private InventoryService inventoryService;
@@ -34,16 +34,14 @@ public class ModifyStockDialog extends JDialog {
 
     private JLabel quantityTextFieldLabel;
     private JTextField quantityTextField;
-    private JLabel unitPriceTextFieldLabel;
-    private JTextField unitPriceTextField;
+    private JLabel unitPriceLabel;
+    private JLabel unitPriceValueLabel;
     private JLabel descriptionTextAreaLabel;
     private JTextArea descriptionTextArea;
-    private JLabel movementTypeComboBoxLabel;
-    private JComboBox<String> movementTypeComboBox;
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
+    public MakeSaleDialog(JTable inventoryTable, ProductService productService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.productService = productService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
@@ -52,7 +50,7 @@ public class ModifyStockDialog extends JDialog {
 
         // Dialog config
         setTitle("Modificar existencias");
-        setSize(300, 600);
+        setSize(300, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // UI components
@@ -70,23 +68,13 @@ public class ModifyStockDialog extends JDialog {
         this.quantityTextField.setMaximumSize(new Dimension(200, 40));
         this.quantityTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        this.unitPriceTextFieldLabel = new JLabel("Precio unitario");
-        this.unitPriceTextFieldLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.unitPriceTextFieldLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.unitPriceLabel = new JLabel("Precio");
+        this.unitPriceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.unitPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        this.unitPriceTextField = new JTextField();
-        this.unitPriceTextField.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.unitPriceTextField.setMaximumSize(new Dimension(200, 40));
-        this.unitPriceTextField.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        this.movementTypeComboBoxLabel = new JLabel("Tipo de movimiento");
-        this.movementTypeComboBoxLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.movementTypeComboBoxLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        String[] options = {"Venta", "Compra"};
-        this.movementTypeComboBox = new JComboBox<>(options);
-        this.movementTypeComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.movementTypeComboBox.setMaximumSize(new Dimension(200, 40));
+        this.unitPriceValueLabel = new JLabel(inventoryTable.getValueAt(inventoryTable.getSelectedRow(), 3).toString());
+        this.unitPriceValueLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        this.unitPriceValueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         this.descriptionTextAreaLabel = new JLabel("Descripción");
         this.descriptionTextAreaLabel.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -120,13 +108,9 @@ public class ModifyStockDialog extends JDialog {
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         dialogPanel.add(this.quantityTextField);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(this.unitPriceTextFieldLabel);
+        dialogPanel.add(this.unitPriceLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.unitPriceTextField);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        dialogPanel.add(this.movementTypeComboBoxLabel);
-        dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        dialogPanel.add(this.movementTypeComboBox);
+        dialogPanel.add(this.unitPriceValueLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         dialogPanel.add(this.descriptionTextAreaLabel);
         dialogPanel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -144,33 +128,31 @@ public class ModifyStockDialog extends JDialog {
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int newMovementId = ModifyStockDialog.this.movementService.generateId();
+                    int newMovementId = MakeSaleDialog.this.movementService.generateId();
                     LocalDate newMovementDate = LocalDate.now();
-                    String newMovementType = (String) ModifyStockDialog.this.movementTypeComboBox.getSelectedItem();
-                    int newMovementQuantity = Integer.parseInt(ModifyStockDialog.this.quantityTextField.getText());
-                    double newMovementUnitPrice = Double.parseDouble(ModifyStockDialog.this.unitPriceTextField.getText());
-                    String newMovementDescription = ModifyStockDialog.this.descriptionTextArea.getText();
-                    Product newMovementProduct = ModifyStockDialog.this.productService.getProductRepository().searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
+                    String newMovementType = "Venta";
+                    int newMovementQuantity = Integer.parseInt(MakeSaleDialog.this.quantityTextField.getText());
+                    double newMovementUnitPrice = Double.parseDouble(MakeSaleDialog.this.unitPriceValueLabel.getText());
+                    String newMovementDescription = MakeSaleDialog.this.descriptionTextArea.getText();
+                    Product newMovementProduct = MakeSaleDialog.this.productService.getProductRepository().searchProductById(Integer.parseInt((String) inventoryTable.getValueAt(inventoryTable.getSelectedRow(), 0)));
     
                     Movement newMovement = new Movement(newMovementId, newMovementDate, newMovementType, newMovementQuantity, newMovementUnitPrice, newMovementDescription, newMovementProduct);
+                    MakeSaleDialog.this.movementService.getMovementRepository().addMovement(newMovement);
                     
-                    ModifyStockDialog.this.productService.getProductRepository().updateProduct(newMovementProduct);
-                    ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
-
-                    ModifyStockDialog.this.movementService.getMovementRepository().addMovement(newMovement);
-                    
-                    Inventory originalInventory = ModifyStockDialog.this.inventoryService.getInventoryRepository().searchInventoryByProduct(newMovementProduct); 
-                    int newInventoryBalance = ModifyStockDialog.this.inventoryService.calculateBalance(movementService, newMovementProduct);
+                    Inventory originalInventory = MakeSaleDialog.this.inventoryService.getInventoryRepository().searchInventoryByProduct(newMovementProduct); 
+                    int newInventoryBalance = MakeSaleDialog.this.inventoryService.calculateBalance(movementService, newMovementProduct);
                     
                     if (newInventoryBalance < 0) {
-                        ModifyStockDialog.this.movementService.getMovementRepository().removeMovement(newMovement);
+                        MakeSaleDialog.this.movementService.getMovementRepository().removeMovement(newMovement);
                         dispose();
                         JOptionPane.showMessageDialog(null, "Existencias insuficientes");
                     } else {
-                        double newInventoryUnitPrice = ModifyStockDialog.this.inventoryService.calculateUnitPrice(movementService, newMovementProduct);
-                        double newInventoryTotalPrice = ModifyStockDialog.this.inventoryService.calculateTotalPrice(movementService, newMovementProduct);
+                        double newInventoryUnitPrice = MakeSaleDialog.this.inventoryService.calculateUnitPrice(movementService, newMovementProduct);
+                        double newInventoryTotalPrice = MakeSaleDialog.this.inventoryService.calculateTotalPrice(movementService, newMovementProduct);
                         Inventory newInventory = new Inventory(newMovementProduct, newInventoryBalance, newInventoryUnitPrice, newInventoryTotalPrice, originalInventory.getMinStock(), originalInventory.getMaxStock());
                         inventoryService.getInventoryRepository().updateInventory(newInventory);
+
+                        MakeSaleDialog.this.inventoryService.updateTable((DefaultTableModel) inventoryTable.getModel());
 
                         if (newInventoryBalance < originalInventory.getMinStock()) {
                             LocalDate newNotificationDate = LocalDate.now();
@@ -178,9 +160,9 @@ public class ModifyStockDialog extends JDialog {
 
                             Notification newNotification = new Notification(newNotificationDate, newNotificationDescription);
 
-                            ModifyStockDialog.this.notificationService.getNotificationRepository().addNotification(newNotification);
+                            MakeSaleDialog.this.notificationService.getNotificationRepository().addNotification(newNotification);
                             
-                            int newOrderId = ModifyStockDialog.this.orderService.generateId();
+                            int newOrderId = MakeSaleDialog.this.orderService.generateId();
                             LocalDate newOrderDate = LocalDate.now();
                             Product newOrderProduct = newMovementProduct;
                             Supplier newOrderSupplier = newMovementProduct.getSupplier();
@@ -189,14 +171,15 @@ public class ModifyStockDialog extends JDialog {
                             LocalDate newOrderReceivedDate = null;
                             
                             Order newOrder = new Order(newOrderId, newOrderDate, newOrderProduct, newOrderSupplier, newOrderQuantity, newOrderState, newOrderReceivedDate);
-                            ModifyStockDialog.this.orderService.getOrderRepository().addOrder(newOrder);
+                            MakeSaleDialog.this.orderService.getOrderRepository().addOrder(newOrder);
                         }
                     }
 
                     dispose();
 
                 } catch (NumberFormatException ex) {
-					ModifyStockDialog.this.errorMessageLabel.setText("Se detectaron datos no válidos.");
+                    System.out.println(ex);
+					MakeSaleDialog.this.errorMessageLabel.setText("Se detectaron datos no válidos.");
 				}
             }
         });

@@ -36,7 +36,6 @@ public class ManageProductsView extends JFrame {
     private JButton addProductButton;
     private JButton modifyProductButton;
     private JButton removeProductButton;
-    private JButton modifyStockButton;
 
     public ManageProductsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
@@ -150,15 +149,6 @@ public class ManageProductsView extends JFrame {
         this.removeProductButton.setForeground(Color.WHITE);
         this.removeProductButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.modifyStockButton = new JButton("Modificar existencias");
-        this.modifyStockButton.setFont(new Font("Arial", Font.BOLD, 16));
-        this.modifyStockButton.setContentAreaFilled(true); 
-    	this.modifyStockButton.setBorderPainted(false); 
-    	this.modifyStockButton.setFocusPainted(false); 
-        this.modifyStockButton.setBackground(new Color(175, 128, 232)); // Set violet color
-        this.modifyStockButton.setForeground(Color.WHITE);
-        this.modifyStockButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -169,8 +159,6 @@ public class ManageProductsView extends JFrame {
         buttonsPanel.add(this.modifyProductButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.removeProductButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        buttonsPanel.add(this.modifyStockButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -246,17 +234,6 @@ public class ManageProductsView extends JFrame {
                     Product produtToRemove = ManageProductsView.this.productService.getProductRepository().searchProductById(Integer.parseInt(productsTableModel.getValueAt(selectedRow, 0).toString()));
                     ManageProductsView.this.productService.getProductRepository().removeProduct(produtToRemove);
                     ManageProductsView.this.productsTableModel.removeRow(selectedRow);
-                }
-            }
-        });
-
-        modifyStockButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
-                if (selectedRow >= 0) {
-                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService, ManageProductsView.this.orderService);
-                    modifyStockDialog.showDialog();
                 }
             }
         });

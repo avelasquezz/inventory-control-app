@@ -1,6 +1,7 @@
 package view;
 
 import service.*;
+import view.ordersDialogs.MakeOrderDialog;
 import view.ordersDialogs.ReceiveOrderDialog;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class OrdersView extends JFrame {
     private DefaultTableModel ordersTableModel;
     private JTable ordersTable;
     private JButton backButton;
+    private JButton makeOrderButton;
     private JButton receiveOrderButton;
 
     public OrdersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
@@ -80,6 +82,15 @@ public class OrdersView extends JFrame {
         this.backButton.setForeground(Color.WHITE);
         this.backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        this.makeOrderButton = new JButton("Realizar pedido");
+        this.makeOrderButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.makeOrderButton.setContentAreaFilled(true); 
+    	this.makeOrderButton.setBorderPainted(false); 
+    	this.makeOrderButton.setFocusPainted(false); 
+        this.makeOrderButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.makeOrderButton.setForeground(Color.WHITE);
+        this.makeOrderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.receiveOrderButton = new JButton("Recibir pedido");
         this.receiveOrderButton.setFont(new Font("Arial", Font.BOLD, 16));
         this.receiveOrderButton.setContentAreaFilled(true); 
@@ -94,8 +105,9 @@ public class OrdersView extends JFrame {
         
         buttonsPanel.add(this.backButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        buttonsPanel.add(this.receiveOrderButton);
+        buttonsPanel.add(this.makeOrderButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttonsPanel.add(this.receiveOrderButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -116,6 +128,14 @@ public class OrdersView extends JFrame {
             }
         });
 
+        makeOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MakeOrderDialog makeOrderDialog = new MakeOrderDialog(OrdersView.this.ordersTable, OrdersView.this.productService, OrdersView.this.orderService, OrdersView.this.inventoryService);
+                makeOrderDialog.showDialog();
+            }
+        });
+
         receiveOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,7 +145,6 @@ public class OrdersView extends JFrame {
                     ReceiveOrderDialog receiveOrderDialog = new ReceiveOrderDialog(OrdersView.this.ordersTable, OrdersView.this.orderService, OrdersView.this.movementService, OrdersView.this.inventoryService);
                     receiveOrderDialog.showDialog();
                 }
-
             }
         });
     }

@@ -29,8 +29,8 @@ public class InventoryService {
     public void updateTable(DefaultTableModel inventoryTableModel) {
         inventoryTableModel.setRowCount(0);
 
-        DecimalFormat df = new DecimalFormat("#,###");
-        
+        DecimalFormat df = new DecimalFormat("#.##");
+
         for (Inventory inventory : inventoryRepository.getInventoryList()) {
             String[] tableRow = {
                 String.valueOf(inventory.getProduct().getId()),

@@ -110,7 +110,7 @@ public class ReceiveOrderDialog extends JDialog {
                     String newMovementType = "Compra";
                     int newMovementQuantity = newOrder.getQuantity();
                     double newMovementUnitPrice = Double.valueOf(ReceiveOrderDialog.this.unitPriceTextField.getText());
-                    String newMovementDescription = "Recepeción pedido de proveedor";
+                    String newMovementDescription = "Recepción pedido de proveedor";
                     Product newMovementProduct = newOrder.getProduct();
 
                     Movement newMovement = new Movement(newMovementId, newMovementDate, newMovementType, newMovementQuantity, newMovementUnitPrice, newMovementDescription, newMovementProduct);

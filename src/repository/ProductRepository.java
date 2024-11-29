@@ -17,6 +17,15 @@ public class ProductRepository {
         return null;
     }
 
+    public Product searchProductByName(String name) {
+        for (Product product : productsList) {
+            if (product.getName().equals(name)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     public List<Product> searchProductsByName(String name) {
         List<Product> foundProducts = new ArrayList<>();
         for (Product product : productsList) {

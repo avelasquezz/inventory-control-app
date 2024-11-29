@@ -6,6 +6,8 @@ import model.Supplier;
 
 import java.util.Random;
 import javax.swing.table.DefaultTableModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
@@ -33,6 +35,16 @@ public class ProductService {
         }
 
         return newId;
+    }
+
+    public List<String> getProductNamesList() {
+        List<String> productNamesList = new ArrayList<>();
+        
+        for (Product product : productRepository.getProductsList()) {
+            productNamesList.add(product.getName());
+        }
+
+        return productNamesList;
     }
 
     public void updateTable(DefaultTableModel productsTableModel) {

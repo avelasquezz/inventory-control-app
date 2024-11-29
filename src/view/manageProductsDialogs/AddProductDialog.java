@@ -141,7 +141,7 @@ public class AddProductDialog extends JDialog {
                         AddProductDialog.this.productService.getProductRepository().addProduct(newProduct);
                         AddProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
-                        Inventory newInventory = new Inventory(newProduct, 0, 0, 0);
+                        Inventory newInventory = new Inventory(newProduct, 0, 0, 0, 10, 150);
 
                         AddProductDialog.this.inventoryService.getInventoryRepository().addInventory(newInventory);
 

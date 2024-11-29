@@ -1,6 +1,9 @@
 package view;
 
 import service.*;
+import model.Inventory;
+import model.Product;
+import view.seeInventoryDialogs.SetLimitsDialog;
 
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
@@ -19,6 +22,7 @@ public class SeeInventoryView extends JFrame {
     private SupplierService supplierService;
     private MovementService movementService;
     private InventoryService inventoryService;
+    private NotificationService notificationService;
     
     private JLabel inventoryTableTitle;
     private DefaultTableModel inventoryTableModel;
@@ -26,17 +30,19 @@ public class SeeInventoryView extends JFrame {
     private JButton backButton;
     private JButton viewMovementsButton;
     private JButton exportAsCSVButton;
+    private JButton setLimitsButton;
 
-    public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
+        this.notificationService = notificationService;
 
         // Window config
         setTitle("MasterStock | Inventario");
-        setSize(750, 400);
+        setSize(750, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -48,7 +54,7 @@ public class SeeInventoryView extends JFrame {
         this.inventoryTableTitle.setFont(new Font("Arial", Font.BOLD, 48));
         this.inventoryTableTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        String[] tableColumns = {"Producto", "Balance", "Precio promedio", "Costo total"};
+        String[] tableColumns = {"Producto (ID)", "Nombre del producto", "Balance", "Precio promedio", "Costo total"};
         this.inventoryTableModel = new DefaultTableModel(tableColumns, 0);
         this.inventoryTable = new JTable(inventoryTableModel);
 
@@ -93,6 +99,15 @@ public class SeeInventoryView extends JFrame {
         this.exportAsCSVButton.setBackground(new Color(175, 128, 232)); // Set violet color
         this.exportAsCSVButton.setForeground(Color.WHITE);
         this.exportAsCSVButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.setLimitsButton = new JButton("Establecer límites");
+        this.setLimitsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        this.setLimitsButton.setContentAreaFilled(true); 
+    	this.setLimitsButton.setBorderPainted(false); 
+    	this.setLimitsButton.setFocusPainted(false); 
+        this.setLimitsButton.setBackground(new Color(175, 128, 232)); // Set violet color
+        this.setLimitsButton.setForeground(Color.WHITE);
+        this.setLimitsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         // Add components to buttons panel
         buttonsPanel.add(Box.createHorizontalGlue());
@@ -102,6 +117,8 @@ public class SeeInventoryView extends JFrame {
         buttonsPanel.add(this.viewMovementsButton);
         buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonsPanel.add(this.exportAsCSVButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonsPanel.add(this.setLimitsButton);
         
         buttonsPanel.add(Box.createHorizontalGlue());
         
@@ -117,7 +134,7 @@ public class SeeInventoryView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService);
                 dashboardView.showWindow();
             }
         });
@@ -127,7 +144,7 @@ public class SeeInventoryView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 
-                MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService);
+                MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService);
                 movementsView.showWindow();
             }
         });
@@ -136,7 +153,7 @@ public class SeeInventoryView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String[] tableColumns = {"Producto", "Balance", "Precio promedio", "Costo total"};
+                    String[] tableColumns = {"Producto (ID)", "Nombre del producto", "Balance", "Precio promedio", "Costo total"};
                     int selectedRow = SeeInventoryView.this.inventoryTable.getSelectedRow();
 
                     if (selectedRow >= 0) {
@@ -155,6 +172,21 @@ public class SeeInventoryView extends JFrame {
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
+                }
+            }
+        });
+
+        setLimitsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = SeeInventoryView.this.inventoryTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    int inventoryProductId = Integer.parseInt(inventoryTable.getValueAt(inventoryTable.getSelectedRow(), 0).toString());
+                    Product inventoryProduct = productService.getProductRepository().searchProductById(inventoryProductId);
+                    Inventory inventory = inventoryService.getInventoryRepository().searchInventoryByProduct(inventoryProduct);
+
+                    SetLimitsDialog setLimitsDialog = new SetLimitsDialog(inventory, inventoryService);
+                    setLimitsDialog.showDialog();
                 }
             }
         });

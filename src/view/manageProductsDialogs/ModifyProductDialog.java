@@ -140,7 +140,7 @@ public class ModifyProductDialog extends JDialog {
                     ModifyProductDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
                     Inventory originalInventory = ModifyProductDialog.this.inventoryService.getInventoryRepository().searchInventoryByProduct(modifiedProduct);
-                    Inventory modifiedInventory = new Inventory(modifiedProduct, originalInventory.getBalance(), originalInventory.getUnitPrice(), originalInventory.getTotalPrice());
+                    Inventory modifiedInventory = new Inventory(modifiedProduct, originalInventory.getBalance(), originalInventory.getUnitPrice(), originalInventory.getTotalPrice(), originalInventory.getMinStock(), originalInventory.getMaxStock());
 
                     ModifyProductDialog.this.inventoryService.getInventoryRepository().updateInventory(modifiedInventory);
 

@@ -5,12 +5,16 @@ public class Inventory {
     private int balance;
     private double unitPrice;
     private double totalPrice;
+    private int minStock;
+    private int maxStock;
 
-    public Inventory(Product product, int balance, double unitPrice, double totalPrice) {
+    public Inventory(Product product, int balance, double unitPrice, double totalPrice, int minStock, int maxStock) {
         this.product = product;
         this.balance = balance;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
+        this.minStock = minStock;
+        this.maxStock = maxStock;
     }
 
     // Getter methods
@@ -30,6 +34,14 @@ public class Inventory {
         return this.totalPrice;
     }
 
+    public int getMinStock() {
+        return this.minStock;
+    }
+
+    public int getMaxStock() {
+        return this.maxStock;
+    }
+
     // Setter methods
     public void setProduct(Product product) {
         this.product = product;
@@ -46,4 +58,12 @@ public class Inventory {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public void setMinStock(int minStock) {
+        this.minStock = minStock;
+    }
+
+    public void setMaxStock(int maxStock) {
+        this.minStock = maxStock;
+    }    
 }

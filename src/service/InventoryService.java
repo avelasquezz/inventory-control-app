@@ -33,6 +33,7 @@ public class InventoryService {
         
         for (Inventory inventory : inventoryRepository.getInventoryList()) {
             String[] tableRow = {
+                String.valueOf(inventory.getProduct().getId()),
                 inventory.getProduct().getName(), 
                 String.valueOf(inventory.getBalance()),
                 String.valueOf(df.format(inventory.getUnitPrice())),

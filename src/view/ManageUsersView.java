@@ -20,6 +20,7 @@ public class ManageUsersView extends JFrame {
     private SupplierService supplierService;
     private MovementService movementService;
     private InventoryService inventoryService;
+    private NotificationService notificationService;
     
     private JLabel usersTableTitle;
     private DefaultTableModel usersTableModel;
@@ -29,12 +30,13 @@ public class ManageUsersView extends JFrame {
     private JButton modifyUserButton;
     private JButton removeUserButton;
 
-    public ManageUsersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public ManageUsersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
+        this.notificationService = notificationService;
 
         // Window config
         setTitle("MasterStock | Usuarios");
@@ -130,7 +132,7 @@ public class ManageUsersView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageUsersView.this.userService, ManageUsersView.this.productService, ManageUsersView.this.supplierService, ManageUsersView.this.movementService, ManageUsersView.this.inventoryService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageUsersView.this.userService, ManageUsersView.this.productService, ManageUsersView.this.supplierService, ManageUsersView.this.movementService, ManageUsersView.this.inventoryService, ManageUsersView.this.notificationService);
                 dashboardView.showWindow();
             }
         });

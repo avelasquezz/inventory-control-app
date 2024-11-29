@@ -19,6 +19,7 @@ public class LoginView extends JFrame {
     private SupplierService supplierService;
     private MovementService movementService;
     private InventoryService inventoryService;
+    private NotificationService notificationService;
     
     private JLabel titleLabel;
     private JLabel emailAddressTextFieldLabel;
@@ -28,12 +29,13 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
 
-    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService) {
+    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
+        this.notificationService = notificationService;
 
         // Window config
         setTitle("MasterStock | Ingresar");
@@ -120,7 +122,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService);
+                    DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService, LoginView.this.notificationService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Usuario o correo incorrecto.");

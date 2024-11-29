@@ -3,6 +3,7 @@ package view.manageProductsDialogs;
 import service.ProductService;
 import service.InventoryService;
 import service.MovementService;
+import service.NotificationService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Inventory;
 import model.Movement;
 import model.Product;
+import model.Notification;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -24,6 +26,7 @@ public class ModifyStockDialog extends JDialog {
     private ProductService productService;
     private MovementService movementService;
     private InventoryService inventoryService;
+    private NotificationService notificationService;
 
     private JLabel quantityTextFieldLabel;
     private JTextField quantityTextField;
@@ -36,10 +39,11 @@ public class ModifyStockDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService) {
+    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
         this.productService = productService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
+        this.notificationService = notificationService;
 
         // Dialog config
         setTitle("Modificar existencias");
@@ -144,19 +148,37 @@ public class ModifyStockDialog extends JDialog {
                     Product newMovementProduct = ModifyStockDialog.this.productService.getProductRepository().searchProductById(Integer.parseInt((String) productsTable.getValueAt(productsTable.getSelectedRow(), 0)));
     
                     Movement newMovement = new Movement(newMovementId, newMovementDate, newMovementType, newMovementQuantity, newMovementUnitPrice, newMovementDescription, newMovementProduct);
+                    
                     ModifyStockDialog.this.productService.getProductRepository().updateProduct(newMovementProduct);
-
                     ModifyStockDialog.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
+
                     ModifyStockDialog.this.movementService.getMovementRepository().addMovement(newMovement);
-
+                    
+                    Inventory originalInventory = ModifyStockDialog.this.inventoryService.getInventoryRepository().searchInventoryByProduct(newMovementProduct); 
                     int newInventoryBalance = ModifyStockDialog.this.inventoryService.calculateBalance(movementService, newMovementProduct);
-                    double newInventoryUnitPrice = ModifyStockDialog.this.inventoryService.calculateUnitPrice(movementService, newMovementProduct);
-                    double newInventoryTotalPrice = ModifyStockDialog.this.inventoryService.calculateTotalPrice(movementService, newMovementProduct);
+                    
+                    if (newInventoryBalance < 0) {
+                        ModifyStockDialog.this.movementService.getMovementRepository().removeMovement(newMovement);
+                        dispose();
+                        JOptionPane.showMessageDialog(null, "Existencias insuficientes");
+                    } else {
+                        double newInventoryUnitPrice = ModifyStockDialog.this.inventoryService.calculateUnitPrice(movementService, newMovementProduct);
+                        double newInventoryTotalPrice = ModifyStockDialog.this.inventoryService.calculateTotalPrice(movementService, newMovementProduct);
+                        Inventory newInventory = new Inventory(newMovementProduct, newInventoryBalance, newInventoryUnitPrice, newInventoryTotalPrice, originalInventory.getMinStock(), originalInventory.getMaxStock());
+                        inventoryService.getInventoryRepository().updateInventory(newInventory);
 
-                    Inventory newInventory = new Inventory(newMovementProduct, newInventoryBalance, newInventoryUnitPrice, newInventoryTotalPrice);
-                    inventoryService.getInventoryRepository().updateInventory(newInventory);
+                        if (newInventoryBalance < originalInventory.getMinStock()) {
+                            LocalDate newNotificationDate = LocalDate.now();
+                            String newNotificationDescription = "El stock de " + newMovementProduct.getName() + " se encuentra por debajo del mínimo establecido (" + originalInventory.getMinStock() + "). El pedido se ha realizado automáticamente teniendo en cuenta el stock máximo (" + originalInventory.getMaxStock() + ").";
+
+                            Notification newNotification = new Notification(newNotificationDate, newNotificationDescription);
+
+                            ModifyStockDialog.this.notificationService.getNotificationRepository().addNotification(newNotification);
+                        }
+                    }
 
                     dispose();
+
                 } catch (NumberFormatException ex) {
 					ModifyStockDialog.this.errorMessageLabel.setText("Se detectaron datos no válidos.");
 				}

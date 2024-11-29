@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ManageProductsView extends JFrame {
+public class OrdersView extends JFrame {
     private UserService userService;
     private ProductService productService;
     private SupplierService supplierService;
@@ -37,7 +37,7 @@ public class ManageProductsView extends JFrame {
     private JButton removeProductButton;
     private JButton modifyStockButton;
 
-    public ManageProductsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public OrdersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
@@ -177,7 +177,7 @@ public class ManageProductsView extends JFrame {
 
         add(tablePanel);
 
-        ManageProductsView.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
+        OrdersView.this.productService.updateTable((DefaultTableModel) productsTable.getModel());
 
         if (userAccesLevel.equals("Auxiliar")) {
             modifyProductButton.setVisible(false);
@@ -188,22 +188,22 @@ public class ManageProductsView extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String searchedName = ManageProductsView.this.searchTextField.getText();
+                String searchedName = OrdersView.this.searchTextField.getText();
 
                 if (searchedName.equals("")) {
-                    ManageProductsView.this.searchErrorMessageLabel.setText("");
-                    ManageProductsView.this.productService.updateTable(productsTableModel);
+                    OrdersView.this.searchErrorMessageLabel.setText("");
+                    OrdersView.this.productService.updateTable(productsTableModel);
                     return;
                 }
                 
-                List<Product> foundProducts = ManageProductsView.this.productService.getProductRepository().searchProductsByName(searchedName);
+                List<Product> foundProducts = OrdersView.this.productService.getProductRepository().searchProductsByName(searchedName);
                 
                 if (foundProducts.size() == 0) {
-                    ManageProductsView.this.searchErrorMessageLabel.setText("El producto no existe.");
-                    ManageProductsView.this.productService.updateTable(productsTableModel);
+                    OrdersView.this.searchErrorMessageLabel.setText("El producto no existe.");
+                    OrdersView.this.productService.updateTable(productsTableModel);
                 } else {
-                    ManageProductsView.this.searchErrorMessageLabel.setText("");
-                    ManageProductsView.this.productService.updateTable(productsTableModel, foundProducts);
+                    OrdersView.this.searchErrorMessageLabel.setText("");
+                    OrdersView.this.productService.updateTable(productsTableModel, foundProducts);
                 }
             }
         });
@@ -212,7 +212,7 @@ public class ManageProductsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, OrdersView.this.userService, OrdersView.this.productService, OrdersView.this.supplierService, OrdersView.this.movementService, OrdersView.this.inventoryService, OrdersView.this.notificationService);
                 dashboardView.showWindow();
             }
         });
@@ -220,7 +220,7 @@ public class ManageProductsView extends JFrame {
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddProductDialog addProductDialog = new AddProductDialog(productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.inventoryService);
+                AddProductDialog addProductDialog = new AddProductDialog(productsTable, OrdersView.this.productService, OrdersView.this.supplierService, OrdersView.this.inventoryService);
                 addProductDialog.showDialog();
             }
         });
@@ -228,9 +228,9 @@ public class ManageProductsView extends JFrame {
         modifyProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
+                int selectedRow = OrdersView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifyProductDialog modifyProductDialog = new ModifyProductDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.inventoryService);
+                    ModifyProductDialog modifyProductDialog = new ModifyProductDialog(OrdersView.this.productsTable, OrdersView.this.productService, OrdersView.this.supplierService, OrdersView.this.inventoryService);
                     modifyProductDialog.showDialog();
                 }
             }
@@ -239,11 +239,11 @@ public class ManageProductsView extends JFrame {
         removeProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
+                int selectedRow = OrdersView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    Product produtToRemove = ManageProductsView.this.productService.getProductRepository().searchProductById(Integer.parseInt(productsTableModel.getValueAt(selectedRow, 0).toString()));
-                    ManageProductsView.this.productService.getProductRepository().removeProduct(produtToRemove);
-                    ManageProductsView.this.productsTableModel.removeRow(selectedRow);
+                    Product produtToRemove = OrdersView.this.productService.getProductRepository().searchProductById(Integer.parseInt(productsTableModel.getValueAt(selectedRow, 0).toString()));
+                    OrdersView.this.productService.getProductRepository().removeProduct(produtToRemove);
+                    OrdersView.this.productsTableModel.removeRow(selectedRow);
                 }
             }
         });
@@ -251,9 +251,9 @@ public class ManageProductsView extends JFrame {
         modifyStockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
+                int selectedRow = OrdersView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService);
+                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(OrdersView.this.productsTable, OrdersView.this.productService, OrdersView.this.movementService, OrdersView.this.inventoryService, OrdersView.this.notificationService);
                     modifyStockDialog.showDialog();
                 }
             }

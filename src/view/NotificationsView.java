@@ -20,19 +20,21 @@ public class NotificationsView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel notificationsTableTitle;
     private DefaultTableModel notificationsTableModel;
     private JTable notificationsTable;
     private JButton backButton;
 
-    public NotificationsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public NotificationsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Notificaciones");
@@ -89,7 +91,7 @@ public class NotificationsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, NotificationsView.this.userService, NotificationsView.this.productService, NotificationsView.this.supplierService, NotificationsView.this.movementService, NotificationsView.this.inventoryService, NotificationsView.this.notificationService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, NotificationsView.this.userService, NotificationsView.this.productService, NotificationsView.this.supplierService, NotificationsView.this.movementService, NotificationsView.this.inventoryService, NotificationsView.this.notificationService, NotificationsView.this.orderService);
                 dashboardView.showWindow();
             }
         });

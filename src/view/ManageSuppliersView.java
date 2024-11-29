@@ -1,7 +1,6 @@
 package view;
 
 import service.*;
-
 import model.Supplier;
 import view.manageSuppliersDialogs.*;
 
@@ -22,6 +21,7 @@ public class ManageSuppliersView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel suppliersTableTitle;
     private DefaultTableModel suppliersTableModel;
@@ -31,13 +31,14 @@ public class ManageSuppliersView extends JFrame {
     private JButton modifySupplierButton;
     private JButton removeSupplierButton;
 
-    public ManageSuppliersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public ManageSuppliersView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Proveedores");
@@ -139,7 +140,7 @@ public class ManageSuppliersView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService, ManageSuppliersView.this.inventoryService, ManageSuppliersView.this.notificationService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageSuppliersView.this.userService,  ManageSuppliersView.this.productService, ManageSuppliersView.this.supplierService, ManageSuppliersView.this.movementService, ManageSuppliersView.this.inventoryService, ManageSuppliersView.this.notificationService, ManageSuppliersView.this.orderService);
                 dashboardView.showWindow();
             }
         });

@@ -4,6 +4,7 @@ import service.ProductService;
 import service.InventoryService;
 import service.MovementService;
 import service.NotificationService;
+import service.OrderService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,6 +14,8 @@ import model.Inventory;
 import model.Movement;
 import model.Product;
 import model.Notification;
+import model.Order;
+import model.Supplier;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -27,6 +30,7 @@ public class ModifyStockDialog extends JDialog {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
 
     private JLabel quantityTextFieldLabel;
     private JTextField quantityTextField;
@@ -39,11 +43,12 @@ public class ModifyStockDialog extends JDialog {
     private JButton acceptButton;
     private JLabel errorMessageLabel;
 
-    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public ModifyStockDialog(JTable productsTable, ProductService productService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.productService = productService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Dialog config
         setTitle("Modificar existencias");
@@ -174,6 +179,17 @@ public class ModifyStockDialog extends JDialog {
                             Notification newNotification = new Notification(newNotificationDate, newNotificationDescription);
 
                             ModifyStockDialog.this.notificationService.getNotificationRepository().addNotification(newNotification);
+                            
+                            int newOrderId = ModifyStockDialog.this.orderService.generateId();
+                            LocalDate newOrderDate = LocalDate.now();
+                            Product newOrderProduct = newMovementProduct;
+                            Supplier newOrderSupplier = newMovementProduct.getSupplier();
+                            int newOrderQuantity = originalInventory.getMaxStock() - newInventoryBalance;
+                            boolean newOrderState = false;
+                            LocalDate newOrderReceivedDate = null;
+                            
+                            Order newOrder = new Order(newOrderId, newOrderDate, newOrderProduct, newOrderSupplier, newOrderQuantity, newOrderState, newOrderReceivedDate);
+                            ModifyStockDialog.this.orderService.getOrderRepository().addOrder(newOrder);
                         }
                     }
 

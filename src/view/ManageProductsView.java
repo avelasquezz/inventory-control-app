@@ -24,6 +24,7 @@ public class ManageProductsView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel productsTableTitle;
     private JButton searchButton;
@@ -37,13 +38,14 @@ public class ManageProductsView extends JFrame {
     private JButton removeProductButton;
     private JButton modifyStockButton;
 
-    public ManageProductsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public ManageProductsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Productos");
@@ -212,7 +214,7 @@ public class ManageProductsView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, ManageProductsView.this.userService, ManageProductsView.this.productService, ManageProductsView.this.supplierService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService, ManageProductsView.this.orderService);
                 dashboardView.showWindow();
             }
         });
@@ -253,7 +255,7 @@ public class ManageProductsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = ManageProductsView.this.productsTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService);
+                    ModifyStockDialog modifyStockDialog = new ModifyStockDialog(ManageProductsView.this.productsTable, ManageProductsView.this.productService, ManageProductsView.this.movementService, ManageProductsView.this.inventoryService, ManageProductsView.this.notificationService, ManageProductsView.this.orderService);
                     modifyStockDialog.showDialog();
                 }
             }

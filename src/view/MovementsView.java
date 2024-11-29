@@ -19,19 +19,21 @@ public class MovementsView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel movementsTableTitle;
     private DefaultTableModel movementsTableModel;
     private JTable movementsTable;
     private JButton backButton;
 
-    public MovementsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public MovementsView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Movimientos");
@@ -84,7 +86,7 @@ public class MovementsView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
 
-                SeeInventoryView seeInventoryView = new SeeInventoryView(userAccesLevel, welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService, MovementsView.this.inventoryService, MovementsView.this.notificationService);
+                SeeInventoryView seeInventoryView = new SeeInventoryView(userAccesLevel, welcomeMessage, MovementsView.this.userService, MovementsView.this.productService, MovementsView.this.supplierService, MovementsView.this.movementService, MovementsView.this.inventoryService, MovementsView.this.notificationService, MovementsView.this.orderService);
                 seeInventoryView.showWindow();
             }
         });

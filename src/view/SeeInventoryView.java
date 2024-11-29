@@ -23,6 +23,7 @@ public class SeeInventoryView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel inventoryTableTitle;
     private DefaultTableModel inventoryTableModel;
@@ -32,13 +33,14 @@ public class SeeInventoryView extends JFrame {
     private JButton exportAsCSVButton;
     private JButton setLimitsButton;
 
-    public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public SeeInventoryView(String userAccesLevel, String welcomeMessage, UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Inventario");
@@ -134,7 +136,7 @@ public class SeeInventoryView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService);
+                DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService, SeeInventoryView.this.orderService);
                 dashboardView.showWindow();
             }
         });
@@ -144,7 +146,7 @@ public class SeeInventoryView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 
-                MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService);
+                MovementsView movementsView = new MovementsView(userAccesLevel, welcomeMessage, SeeInventoryView.this.userService, SeeInventoryView.this.productService, SeeInventoryView.this.supplierService, SeeInventoryView.this.movementService, SeeInventoryView.this.inventoryService, SeeInventoryView.this.notificationService, SeeInventoryView.this.orderService);
                 movementsView.showWindow();
             }
         });

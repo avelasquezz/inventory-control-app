@@ -1,7 +1,6 @@
 package view;
 
 import service.*;
-
 import model.User;
 
 import javax.swing.*;
@@ -20,6 +19,7 @@ public class LoginView extends JFrame {
     private MovementService movementService;
     private InventoryService inventoryService;
     private NotificationService notificationService;
+    private OrderService orderService;
     
     private JLabel titleLabel;
     private JLabel emailAddressTextFieldLabel;
@@ -29,13 +29,14 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JLabel errorMessageLabel;
 
-    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService) {
+    public LoginView(UserService userService, ProductService productService, SupplierService supplierService, MovementService movementService, InventoryService inventoryService, NotificationService notificationService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
         this.supplierService = supplierService;
         this.movementService = movementService;
         this.inventoryService = inventoryService;
         this.notificationService = notificationService;
+        this.orderService = orderService;
 
         // Window config
         setTitle("MasterStock | Ingresar");
@@ -122,7 +123,7 @@ public class LoginView extends JFrame {
                     LoginView.this.errorMessageLabel.setText("");
                     
                     dispose();
-                    DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService, LoginView.this.notificationService);
+                    DashboardView dashboardView = new DashboardView(userAccesLevel, welcomeMessage, LoginView.this.userService, LoginView.this.productService, LoginView.this.supplierService, LoginView.this.movementService, LoginView.this.inventoryService, LoginView.this.notificationService, LoginView.this.orderService);
                     dashboardView.showWindow();
                 } else {
                     LoginView.this.errorMessageLabel.setText("Usuario o correo incorrecto.");
